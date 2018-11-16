@@ -1,0 +1,38 @@
+.signature-table-temp {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: auto;
+    background-color: #fff;
+}
+.signature-table-temp > thead {
+    /* background-color: #f2f2f2;
+    color: #595959;
+    font-size: 14px; */
+    background-color: #40b2f1;
+    color: #fff;
+    font-size: 14px;
+}
+.signature-table-temp > thead > tr > th,
+.signature-table-temp > thead > tr > td,
+.signature-table-temp > tbody > tr > th,
+.signature-table-temp > tbody > tr > td,
+.signature-table-temp > tfoot > tr > th,
+.signature-table-temp > tfoot > tr > td {
+    padding: 8px;
+    /* line-height: 30px; */
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #d2dae0;
+    font-size: 14px;  
+}
+.signature-table-temp > tbody > tr > th,
+.signature-table-temp > tbody > tr > td,
+.signature-table-temp > tfoot > tr > th,
+.signature-table-temp > tfoot > tr > td{
+    color:#323232;
+
+}
+table tr:nth-child(2n){
+  background-color: #f7f7f7;
+}

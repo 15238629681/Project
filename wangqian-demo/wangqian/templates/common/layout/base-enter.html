@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv=X-UA-Compatible content=IE=EmulateIE9>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}layui-v2.2.6/layui/css/layui.css">
+    <object id="HTCOM" classid="CLSID:cc853f5e-a45d-442e-bc6a-fb1541532e49" width="0" height="0" data-main-user="{{request.original_user.is_main}}" 
+                   data-ukey-user="{{user.enterprise.use_ukey }}" style="position: absolute;"></object>
+    <title>
+      {%if request.is_third%}{{ request.third_party.name }}-{%endif%}{% block title%}{% endblock %}
+    </title>
+
+      {%include 'common/layout/head-nav-enter.html'%}
+      {% if user.group_id %}
+          <style type="text/css">
+             .temp-page-wrap {
+                margin-top: 0px;
+             }
+          </style>
+       {% endif %}
+      <script>
+     
+      var _hmt = _hmt || [];
+      (function() {
+
+        if (document.domain.indexOf('.syzljh.cn') != -1) {
+          document.cookie = "csrftoken=; Path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        }
+
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?c7a77eff2e8cc0670fac6dec780dbd7a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    <!-- <script src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script> -->
+    <!-- layui  不能全局引入 否则会影响 之前页面 单独引入layer的css 静态资源--> 
+    <!-- <script src="{{STATIC_URL}}layui-v2.2.6/layui/layui.js"></script> -->
+	{% block header %}{% endblock %}
+  </head>
+<body>
+<div style="overflow: hidden;">
+  {%if request.is_third%}
+    {% with "common/layout/"|add:request.third_party.host|add:"/top.html" as third_top_template %}
+      {% include third_top_template %}
+    {% endwith %}
+    {% with "common/layout/"|add:request.third_party.host|add:"/left.html" as third_left_template %}
+      {% include third_left_template %}
+    {% endwith %}
+  {%else%}
+  	{% include 'common/layout/top-nav-enter.html' %}
+      {% include 'common/layout/left-nav-enter.html' %}
+  {%endif%}
+
+  <div id="temp-page-wrap" class="temp-page-wrap">
+    <div id="temp-page-content" class="temp-page-content" style="overflow:auto;">
+      <!-- QQ 弹窗 -->
+      <div class="service-style" id="service"><img src="{{STATIC_URL}}images/service.png"><br>客服</div> 
+      <div class="service-info" id="service-info">
+        <p>咨询热线：</p>
+        <p class="orange">4006755008</p>
+        <p>在线客服：</p>
+        <p>9:00-18:00</p>
+        <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=169685329&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+        <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=1556124689&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+        <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=2551451153&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+      </div> 
+
+       <script>
+        (function(win) {
+          //设置 content 高度
+          // var tid = null
+          // var leftNavDom = document.getElementById('temp-left-nav')  //左侧边栏高度
+          // var contentDom = document.getElementById('temp-page-content')  // content 高度
+          // var changeConHeight = function() {
+          //   var contentHeight = document.getElementById('temp-page-content').clientHeight
+          //   var bodyHeight = window.innerHeight || document.body.clientHeight
+          //   var contentWidth = document.body.clientWidth - 235
+          //   contentHeight = (contentHeight > bodyHeight ? contentHeight : bodyHeight) - 140
+          //   contentHeight = contentHeight > 550 ? contentHeight : 550
+          //   leftNavDom.style.minHeight = window.innerHeight + 'px'
+          //   contentDom.style.minHeight = contentHeight + 'px'
+          //   contentDom.style.width = contentWidth + 'px'
+          // }
+          // win.addEventListener('resize', function() {
+          //   clearTimeout(tid)
+          //   tid = setTimeout(changeConHeight, 300)
+          // }, false)
+          // win.addEventListener('pageshow', function(e) {
+          //   if (e.persisted) {
+          //       clearTimeout(tid)
+          //       tid = setTimeout(changeConHeight, 300);
+          //   }
+          // }, false)
+          // changeConHeight()
+
+          //关闭咨询悬浮窗 out
+          // $('#service').hover(function(){
+          //   $('#service-info').show('fast')
+          // },function(){
+          //   setTimeout(function(){
+          //     $('#service-info').hide('fast') 
+          //   },3000) 
+          // })
+          
+           //关闭咨询悬浮窗  new
+          var timerr = null
+          var changehover = function(ab){
+              $(ab).hover(function(){
+                  clearTimeout(timerr)
+                  $('#service-info').show('fast')
+              },function(){
+                  timerr = setTimeout(function(){
+                      $('#service-info').hide('fast') 
+                  },300) 
+              })
+          }
+          changehover('#service')
+          changehover('#service-info')
+        })(window)
+      </script>
+      {% block content %} {% endblock %}
+    </div>
+     {%if request.is_third%}
+      {% with "common/layout/"|add:request.third_party.host|add:"/footer.html" as third_footer_template %}
+        {% include third_footer_template %}
+      {% endwith %}
+    {%else%}
+        <!-- {% include 'common/footer/footer-enter.html' %} -->
+    {%endif%}
+  </div>
+</div>
+  <!-- WPA Button Begin -->
+  <!-- <script charset="utf-8" type="text/javascript" src="https://wpa.b.qq.com/cgi/wpa.php?key=XzgwMDE3MjAyMV80NTU1NDZfODAwMTcyMDIxXw"></script>   -->
+  <!-- WPA Button End -->
+  </body>
+</html>

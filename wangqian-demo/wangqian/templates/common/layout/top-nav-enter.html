@@ -1,0 +1,314 @@
+<style>
+    /* 清除浮动 */
+    .clearfix::before, .clearfix::after {
+  	    content: " ";
+  	    display: table;
+  	}
+  	.clearfix::after {
+  	    clear: both;
+  	}
+  	.clearfix {
+  	    *zoom: 1;
+      }
+      
+    .temp-top-nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        z-index: 2;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    .temp-top-nav > .nav-content {
+        margin: 0 auto;
+        width: 98%;
+        min-width: 1088px !important;
+        height: 100%;
+    }
+    .temp-top-nav > .nav-content > .nav-logo {
+        float: left;
+        margin-top:20px;
+        width: 237px;
+        height: 23px;
+        font-size: 14px;
+        color: #363636;
+        background-image: url({{STATIC_URL}}images/header/web_name.png);
+    }
+
+    .temp-top-nav > .nav-content > ul {
+        float: left;
+    }
+    .temp-top-nav > .nav-content > ul > li {
+        float: left;
+        min-width: 75px;
+        line-height: 60px;
+        text-align: center;
+    }
+    .temp-top-nav > .nav-content > ul > .active {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-top-nav > .nav-content > ul > li:hover {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    /* .temp-top-nav > .nav-content > .logout > a {
+        float: right;
+        margin-right: 15px;
+        line-height: 60px;
+        font-size: 14px;
+        color: #40B2F1;
+        text-decoration: none;
+    } */
+    .temp-top-nav > .nav-content > .logout > a{
+        position: relative;
+    }
+    .temp-top-nav > .nav-content > .logout > a > img{
+        float: right;
+        margin-right: 5px;
+        margin-top: 22px;
+    }
+    .temp-top-nav > .nav-content > .logout > a > span{
+        /* position:absolute; */
+        float:right;margin-right:-40px;margin-top:13px;
+        font-size:10px;color:#fff;
+        display:inline-block;width:31px;height:15px;background:#E71F10;
+        border-radius: 6px;text-align:center;line-height:14px;
+    }
+    .temp-top-nav > .nav-content > .comp-name {
+        float: right;
+        margin-right: 10px;
+        margin-left: 5px;
+        line-height: 68px;
+        color: #5e7d8f;
+        /* border-right: 1px #595959 solid; */
+    }
+    .temp-top-nav > .nav-content > .comp-name > a:-webkit-any-link {
+        color: #5e7d8f !important;
+    }
+    .temp-top-nav > .nav-content > .ca-auth > input {
+        float: right;
+        margin: 15px 10px;
+        border: 0;
+        border-radius: 4px;
+        background: #40B2F1;
+        padding: 3px 8px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .temp-top-nav > .nav-content > .login-register {
+        display: none;
+    }
+    .temp-top-nav > .nav-content > .login-register > .login-a, .register-a {
+        float: right;
+        margin: 0 5px;
+        line-height: 60px;
+        color: #40B2F1;
+        text-decoration: none;
+    }
+    .solid{
+        border-right: 1px #e5e7eb solid;
+        height: 25px;
+        float: right;
+        margin: 18px 15px 15px 10px;
+    }
+
+    .temp-top-nav>.nav-content>.top-tab {
+        float: right;
+        height: 60px;
+        padding-top: 5px;
+        color: #979797;
+        width: 130px;
+        box-sizing:border-box;
+        -moz-box-sizing:border-box; /* Firefox */
+        -webkit-box-sizing:border-box; /* Safari */
+    }
+    .temp-top-nav>.nav-content>.top-tab:hover{
+        background-color: #F5F7F8;
+    }
+    .temp-top-nav>.nav-content>.top-tab.current{
+        background-color: #EBEFF1;
+    }
+    .temp-top-nav>.nav-content>.top-tab a div{
+        color: #5e7d8f;
+        margin-top: 3px;
+    }
+    .temp-top-nav>.nav-content>.top-tab div:first-of-type {
+        height: 40%;
+        text-align: center;
+        vertical-align: bottom;
+    }
+    .temp-top-nav>.nav-content>.top-tab div:last-of-type {
+        height: 40%;
+        text-align: center;
+        vertical-align: super;
+    }
+    .subsite-name{
+        float: left;
+        padding-top: 14px;
+        color: #000;
+        font-size: 22px;
+    }
+    .subsite-name a{
+        color: #000;
+    }
+    .subsite-name a:hover{
+        text-decoration: none;
+    }
+    .subsite-name span{
+        font-size: 12px;
+        height: 40px;
+        vertical-align: middle;
+    }
+</style>
+<!-- cio -->
+
+<!-- cio over -->
+{% if not user.group_id %}
+<div class="temp-top-nav" id="temp-top-nav">
+    <div class="nav-content clearfix">  
+        <!--<img src="{{STATIC_URL}}images/index-logo.png" alt="logo">-->
+        {% if request.sub_site %}
+        <div class="subsite-name" >
+            <a href="{% url 'website_index' %}">
+                {% if request.sub_site.logo  %}
+                    <img src="{{ MEDIA_URL }}{{ request.sub_site.logo }}" height="23px" style="vertical-align: middle"/>
+                {% else %}
+                    <img src="{{STATIC_URL}}images/new_home/name.png" height="23px" style="vertical-align: middle"/>
+                {% endif %}
+                <span>- {{ request.sub_site.province }}站</span>
+            </a> 
+        </div>
+        {% else %}
+        <div class="nav-logo">
+            <a href="{% url 'website_index' %}" style="display:block;width: 100%;height: 100%;"></a>
+        </div>
+        {% endif %}
+
+        <span class="login-register"><a href="/account/register/index.html" class="register-a">注册</a><a href="/" class="login-a">登录</a></span>
+        <span class="logout"><a href="/user/api/logout"><img src="{{STATIC_URL}}images/header/back-home.png"></a></span>
+        <span class="solid"></span><span id="temp-comp-name" class="comp-name"><a href="/enterprise/people/">{{user.name}}</a></span>
+
+       
+
+        {% if not user.is_authorize %}
+        <a class="ca-auth" href="/enterprise/auth/"><input type="button" value="账户认证"></a>
+        {% endif %}
+
+        <span class="logout"><a href="/enterprise/people/"><img src="/static/images/people.png" style="margin-left:10px;width:18px;height:20px;"></a></span>
+
+        <span class="logout"><a href="/home/message" target="_block" class="email-wrap"><img src="/static/images/email.png" style="margin-right:34px;width:26px;vertical-align:bottom;height:18px;margin-top:22px;">
+            {% if user.mess_count > 0 %}
+                {% if user.mess_count <= 99 %}
+                        <span>{{user.mess_count}}</span>  
+                {% endif %}
+                {% if user.mess_count > 99 %}
+                        <span>99+</span>  
+                {% endif %}
+            {% endif %}
+        </a></span>
+
+        <div class="top-tab">
+            <a href="{{ request.DRUGLIST_DOMAIN_URL }}pages/manage/druglist?reffer={{ request.META.HTTP_HOST }}">
+            <div><img src="/static/images/new_home/top_icon2.png"></div>
+            <div>药检通</div>
+            </a>
+        </div>
+        <div class="top-tab">
+            <a href="{{ request.DRUGLIST_DOMAIN_URL }}pages/contract/create/step1/?reffer={{ request.META.HTTP_HOST }}">
+            <div><img src="/static/images/cont.png"></div>
+            <div>药签宝</div>
+            </a >
+        </div>
+        <div class="top-tab current">
+            <a href="/account/home/">
+            <div><img src="/static/images/new_home/top_icon1.png"></div>
+            <div>首营资料交换</div>
+            </a>
+        </div>
+
+        <div class="top-tab">
+            <a target="_blank" href="/third/login_cio">
+            <div><img src="/static/images/new_home/cio.png"></div>
+            <div>CIO在线</div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script> 
+<script>
+    (function(win) {
+        var navItems = document.getElementsByClassName('temp-nav-item');
+    })(window)
+{#    var i = 0;#}
+{##}
+{#    function localTokenToCIO(token){#}
+{#        exchangeToCio(token, "local")#}
+{#    }#}
+{##}
+{#    function remoteTokenToCIO(){#}
+{#        $.getJSON("/third/api/get_cio_token",#}
+{#            function(data){#}
+{#                var code = data.code;#}
+{#                if (code == 200) {#}
+{#                    setCookie("cio_token", data.token, 2*60*60-120)#}
+{#                    exchangeToCio(data.token, "remote")#}
+{#                }#}
+{#        })#}
+{#    }#}
+{##}
+{##}
+{#    function exchangeToCio(token, type){#}
+{#        $.ajax({#}
+{#            url: "https://www.ciopharma.com/Cio/ExchangeToCio",#}
+{#            data: {"token": token},#}
+{#            type: "get",#}
+{#            dataType: "jsonp",#}
+{#            jsonpCallback: "showData",　#}
+{#            success: function (data) {#}
+{#                if(data.code==200){#}
+{#                    window.open("http://www.ciopharma.com")#}
+{#                }else{#}
+{#                    if(i == 0 && type == "local"){#}
+{#                        remoteTokenToCIO();#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{#        })#}
+{##}
+{#    }#}
+{#    function setCookie(name, value, seconds){#}
+{#        var extime = new Date();#}
+{#        extime.setSeconds(extime.getSeconds()+seconds);#}
+{#        document.cookie = name + "=" + escape(value)+((seconds==null)?"":";expires="+extime.toGMTString())#}
+{#    }#}
+{##}
+{#    function getCookie(name){#}
+{#        if (document.cookie.length>0){#}
+{#            start=document.cookie.indexOf(name + "=");#}
+{#            if (start!=-1){#}
+{#                start=start + name.length+1#}
+{#                end=document.cookie.indexOf(";",start)#}
+{#                if (end==-1)#}
+{#                    end=document.cookie.length#}
+{#                return unescape(document.cookie.substring(start,end))#}
+{#            }#}
+{#        }#}
+{#        return ""#}
+{#    }#}
+{##}
+{#    $(document).ready(function(){#}
+{#        if(token == '' || token == null || token == "undefined") {#}
+{#            remoteTokenToCIO();#}
+{#        }#}
+{#        var token = getCookie("cio_token")#}
+{#        if(token != null){#}
+{#            localTokenToCIO(token);#}
+{#        }else{#}
+{#            remoteTokenToCIO();#}
+{#        }#}
+{#    })#}
+</script>

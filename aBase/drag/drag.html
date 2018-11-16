@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            #div1{
+                width:100px;
+                height:100px;
+                background:red;
+                position:absolute;
+            }
+            #div2{
+                width:100px;
+                height:100px;
+                background: gray;
+                position:absolute;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id="div1">1111 </div>
+        <div id="div2"> 2222</div>
+        <script src="drag.js"></script>
+        <script src="limitDrag.js"></script>
+        <script>
+            var a= new Drag('div1');
+            var b= new LimitDrag('div2');
+    
+            // var oDiv = document.querySelector('#div1');
+            // oDiv.onmousedown=  function (ev){
+            //     var x = ev.clientX - oDiv.offsetLeft;
+            //     var y = ev.clientY - oDiv.offsetTop;
+
+            //     document.onmousemove = function( ev ){
+            //         oDiv.style.left = ev.clientX - x + 'px';
+            //         oDiv.style.top = ev.clientY - y + 'px';
+            //     }
+            //     document.onmouseup = function (ev){
+            //         document.onmousedown = null;
+            //         document.onmousemove = null;
+            //     }
+            // }
+
+        </script>
+    </body>
+</html>

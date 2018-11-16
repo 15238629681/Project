@@ -1,0 +1,283 @@
+{% load extags %}
+
+<style>
+    img{
+        border: none;
+    }
+    .temp-left-nav {
+        position: fixed;
+        top: 97px;
+        left: 0;
+        width: 220px;
+        min-height: 800px;
+        color: #fff;
+        background-color: #3D4049;
+        z-index: 10000;
+        text-align: left;
+        font-size: 16px;
+    }
+    .temp-left-nav > .temp-left-list {
+        margin-top: 15px;
+        width: 100%;
+        min-height: 300px;
+    }
+    .temp-left-nav > .temp-left-list >.no-expand {
+        line-height: 50px;
+        cursor: pointer;
+        border-left: 5px solid #3d4049;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home:hover {
+        color: #fff;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home.active,
+    .temp-left-nav > .temp-left-list > .no-expand.ask.active,
+    .temp-left-nav > .temp-left-list > .can-expand > ul > .active {
+        background-color: #4C5268;
+        color: #40B2F1;
+        border-left: 5px solid #40B2F1;
+    }
+    .temp-left-nav > .temp-left-list > .active > a,
+    .temp-left-nav > .temp-left-list > .can-expand > ul > .active > a {
+        color: #40B2F1;
+    }
+    .temp-left-nav > .temp-left-list a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        text-decoration: none;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand > a {
+        width: 45%;
+    }
+    .temp-left-nav > .temp-left-list  a:hover {
+        color: #40B2F1;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home:hover > .icon {
+        background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+        background-size: 100% 100%;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home.active > .icon {
+        background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+        background-size: 100% 100%;
+    }
+    .temp-left-nav > .temp-left-list .icon {
+        display: inline-block;
+        margin: 0 15px -5px 30px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+    }
+    .temp-left-nav > .temp-left-list > .active > a > .icon {
+        display: inline-block;
+        margin: 0 15px -5px 30px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .temp-left-nav > .temp-left-list > .can-expand > p {
+        position: relative;
+        line-height: 50px;
+        cursor: pointer;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .arrow {
+        display: inline-block;
+        position: absolute;
+        right: 15px;
+        top: 17px;
+        width: 15px;
+        height: 15px;
+        margin-left: 10px;
+        background-size: 100%;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .right {
+        background-image: url({{STATIC_URL}}images/arrow-right.png);
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .down {
+        background-image: url({{STATIC_URL}}images/arrow-down.png);
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > ul {
+        max-height: 0;
+        overflow: hidden;
+        cursor: pointer;
+        transition: max-height .5s ease-in-out;
+        -webkit-transition: max-height .5s ease-in-out;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > .show-list {
+         max-height: 500px;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > ul > li {
+        padding-left: 65px;
+        position: relative;
+        line-height: 35px;
+        border-left: 5px solid #3D4049;
+        text-align: left;
+    }
+    /* .temp-left-nav > .temp-left-list > .can-expand > ul > li:hover {
+        background-color: #4C5268;
+        color: #fff;
+    } */
+
+</style>
+<!-- 医疗机构(7):已授权品种列表、未授权品种列表、开户商业公司管理
+商业公司/药店(5):企业资料交换列表、产品资料交换列表、申请授权列表（医疗机构像商业公司索取首营）
+        、已索取资料列表（商业公司向生产企业索取记录）、索取首营（商业公司向生产企业索取）
+生产企业(6):申请授权列表（商业公司向生产企业索取）、企业资料交换列表、产品资料交换列表 -->
+<div id="temp-left-nav" class="temp-left-nav">
+    {% render_user_menu %}
+</div>
+<!-- 没有认证的企业 -->
+{% if not user.is_authorize %}
+<script>
+    (function(win) {
+        var allA = document.getElementById('temp-left-nav').getElementsByTagName('a')
+        for (var i = 0; i < allA.length; i++) {
+            allA[i].href = '/enterprise/auth/'
+        }
+    })(window)
+</script>
+{% endif %}
+<script>
+    (function(win) {
+        //设置点击事件
+         var navItems = document.getElementsByClassName('can-expand')
+         var closeAll = function() {
+            var arrowDown = document.getElementsByClassName('down')
+            for(var i=0; i<arrowDown.length; i++) {
+                arrowDown[i].className = arrowDown[i].className.replace('down', 'right')
+            }
+            var listShow = document.getElementsByClassName('show-list')
+            for(var j=0; j<listShow.length; j ++) {
+                listShow[j].className = ''
+            }
+         }
+         var handleEvent = function(dom) {
+             return function() {
+                 var listDom = null
+                 var arrowDom = null
+                 for(var i=0; i<dom.children.length; i++) {
+                     if(dom.children[i].tagName == 'UL') {
+                         listDom = dom.children[i]
+                     } else if(dom.children[i].tagName == 'P') {
+                         var pChild = dom.children[i].children
+                         for(var j=0; j<pChild.length; j++) {
+                             if(pChild[j].className.indexOf('arrow') > -1) {
+                                 arrowDom = pChild[j]
+                             }
+                         }
+                     }
+                 }
+                if(listDom.className.indexOf('show-list') > -1) {
+                    closeAll()
+                } else {
+                    closeAll()
+                    listDom.className = 'show-list'
+                    arrowDom.className = arrowDom.className.replace('right', 'down')
+                }
+            }
+         }
+         for(var i=0; i<navItems.length; i++) {
+             navItems[i].addEventListener('click', handleEvent(navItems[i]), false)
+         }
+
+         //根据url展开
+         var url = location.href
+         if(url.indexOf('account/home') > -1) {
+            document.getElementById('temp-left-home').className = document.getElementById('temp-left-home').className + ' active'
+         } else if(url.indexOf('material/launchs/launch') > -1) {
+            document.getElementById('temp-left-launch').className = document.getElementById('temp-left-launch').className + ' active'
+         } else if(url.indexOf('company/list?flag=spon') > -1) {
+            document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-exchange-list').className = 'show-list'
+            document.getElementById('temp-left-enters-spon').className = ' active'
+         } else if(url.indexOf('company/list?flag=recv') > -1) {
+            document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-exchange-list').className = 'show-list'
+            document.getElementById('temp-left-enters-recv').className = ' active'
+         } else if(url.indexOf('material/product/list?flag=recv') > -1) {
+            document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-exchange-list').className = 'show-list'
+            document.getElementById('temp-left-prods-recv').className = ' active'
+         } else if(url.indexOf('material/product/list?flag=spon') > -1) {
+            document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-exchange-list').className = 'show-list'
+            document.getElementById('temp-left-prods-spon').className = ' active'
+         } else if(url.indexOf('company/infobank') > -1) {
+            document.getElementById('temp-left-bank-arrow').className = document.getElementById('temp-left-bank-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-bank-list').className = 'show-list'
+            document.getElementById('temp-left-enter-bank').className = ' active'
+         }  else if(url.indexOf('product/infobank') > -1) {
+            document.getElementById('temp-left-bank-arrow').className = document.getElementById('temp-left-bank-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-bank-list').className = 'show-list'
+            document.getElementById('temp-left-prod-bank').className = ' active'
+         } else if (url.indexOf('business/custom/') > -1) {
+            document.getElementById('temp-left-bank-arrow').className = document.getElementById('temp-left-bank-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-bank-list').className = 'show-list'
+            document.getElementById('temp-left-custom').className = ' active'
+         } else if(url.indexOf('enterprise/auth') > -1) {
+            document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-enter-list').className = 'show-list'
+            document.getElementById('temp-left-ca').className = ' active'
+         }  else if (url.indexOf('enterprise/manage/child') > -1) {
+            document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-enter-list').className = 'show-list'
+            document.getElementById('temp-left-manage-child').className = ' active'
+         } else if (url.indexOf('enterprise/manage/audit') > -1) {
+            document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-enter-list').className = 'show-list'
+            document.getElementById('temp-left-manage-audit').className = ' active'
+         } else if(url.indexOf('enterprise/manage') > -1) {
+             document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-enter-list').className = 'show-list'
+             document.getElementById('temp-left-manage').className = ' active'
+         }  else if(url.indexOf('enterprise/seal') > -1) {
+             document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-enter-list').className = 'show-list'
+             document.getElementById('temp-left-seal').className = ' active'
+         } else if(url.indexOf('charge/invoice') > -1) {
+             document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-finance-list').className = 'show-list'
+             document.getElementById('temp-left-invoice').className = ' active'
+         } else if(url.indexOf('charge/records') > -1) {
+             document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-finance-list').className = 'show-list'
+             document.getElementById('temp-left-records').className = ' active'
+         } else if(url.indexOf('charge/request') > -1) {
+            document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-finance-list').className = 'show-list'
+            document.getElementById('temp-left-charge').className = ' active'
+         } else if (url.indexOf('authorization/list') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-apply').className = ' active'
+         } else if (url.indexOf('authorization/authorized') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-authorized').className = ' active'
+         } else if (url.indexOf('authorization/unauthorized') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-unauthorized').className = ' active'
+         } else if (url.indexOf('open/list') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-open').className = ' active'
+         } else if (url.indexOf('business/authorization/apply') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-apply').className = ' active'
+         } else if (url.indexOf('cliam/detail') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-detail').className = ' active'
+         } else if (url.indexOf('cliam/history') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-history').className = ' active'
+         } else if (url.indexOf('manufacturer/authorization/apply') > -1) {
+            document.getElementById('temp-left-ask-arrow').className = document.getElementById('temp-left-ask-arrow').className.replace('right', 'down')
+            document.getElementById('temp-left-ask-list').className = 'show-list'
+            document.getElementById('temp-left-manu-apply').className = ' active'
+         }
+    })(window)
+</script>

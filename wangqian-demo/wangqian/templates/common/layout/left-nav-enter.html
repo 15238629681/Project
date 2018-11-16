@@ -1,0 +1,326 @@
+{% load extags %}
+<style>
+img {
+    border: none;
+}
+
+.temp-left-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 220px;
+    color: #fff;
+    background-color: #3D4049;
+    z-index: 10000;
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: -3000px;
+    padding-bottom: 3000px;
+    overflow: hidden;
+    bottom: 0;
+}
+.temp-left-nav .temp-left-nav-inner {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 230px;
+}
+.temp-left-nav .temp-left-list {
+    margin-top: 15px;
+    width: 100%;
+    min-height: 300px;
+}
+
+.temp-left-nav .temp-left-list .no-expand {
+    line-height: 50px;
+    cursor: pointer;
+    border-left: 5px solid #3d4049;
+}
+
+.temp-left-nav .temp-left-list .no-expand.home:hover {
+    color: #fff;
+}
+
+.temp-left-nav .temp-left-list .can-expand>ul {
+    font-size: 14px;
+}
+
+.temp-left-nav .temp-left-list .no-expand.home.active,
+.temp-left-nav .temp-left-list .no-expand.ask.active,
+.temp-left-nav .temp-left-list .can-expand>ul>.active {
+    background-color: #4C5268;
+    color: #40B2F1;
+    border-left: 5px solid #40B2F1;
+    font-size: 16px;
+}
+
+.temp-left-nav .temp-left-list .active>a,
+.temp-left-nav .temp-left-list .can-expand>ul>.active>a {
+    color: #40B2F1;
+}
+
+.temp-left-nav .temp-left-list a {
+    display: inline-block;
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+}
+
+.temp-left-nav .temp-left-list .no-expand>a {
+    width: 45%;
+}
+
+.temp-left-nav .temp-left-list a:hover {
+    color: #40B2F1;
+}
+
+.temp-left-nav .temp-left-list .no-expand.home:hover>.icon {
+    background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+    background-size: 100% 100%;
+    width: 23px;
+    height: 23px;
+}
+
+.temp-left-nav .temp-left-list .no-expand.home.active>.icon {
+    background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+    background-size: 100% 100%;
+}
+
+.temp-left-nav .temp-left-list .icon {
+    display: inline-block;
+    margin: 0 15px -5px 30px;
+    width: 23px;
+    height: 23px;
+    background-repeat: no-repeat;
+}
+
+.temp-left-nav .temp-left-list .active>a>.icon {
+    display: inline-block;
+    margin: 0 15px -5px 30px;
+    width: 20px;
+    height: 20px;
+}
+
+.temp-left-nav .temp-left-list .can-expand>p {
+    position: relative;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.temp-left-nav .temp-left-list .can-expand>p>.arrow {
+    display: inline-block;
+    position: absolute;
+    right: 28px;
+    top: 17px;
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+    background-size: 100%;
+}
+
+.temp-left-nav .temp-left-list .can-expand>p>.right {
+    background-image: url({{STATIC_URL}}images/arrow-right.png);
+}
+
+.temp-left-nav .temp-left-list .can-expand>p>.down {
+    background-image: url({{STATIC_URL}}images/arrow-down.png);
+}
+
+.temp-left-nav .temp-left-list .can-expand>ul {
+    display: none;
+    cursor: pointer;
+    /*transition: display .5s ease-in-out;*/
+    /*-webkit-transition: display .5s ease-in-out;*/
+}
+
+.temp-left-nav .temp-left-list .can-expand>.show-list {
+    font-size: 14px;
+    display: block;
+}
+
+.temp-left-nav .temp-left-list .can-expand>ul>li {
+    padding-left: 65px;
+    position: relative;
+    line-height: 35px;
+    border-left: 5px solid #3D4049;
+    text-align: left;
+}
+
+
+
+
+/* .temp-left-nav > .temp-left-list > .can-expand > ul > li:hover {
+        background-color: #4C5268;
+        color: #fff;
+    } */
+</style>
+
+{% if user.group_id %}
+<style type="text/css">
+    .temp-left-nav {
+        top:0px;
+    }
+</style>
+{% endif %}
+
+<div id="temp-left-nav" class="temp-left-nav">
+    <div class="temp-left-nav-inner">
+        {% render_user_menu %}
+    </div>
+</div>
+<!-- 没有认证的企业 -->
+{% if not user.is_authorize %}
+<script>
+(function(win) {
+    var allA = document.getElementById('temp-left-nav').getElementsByTagName('a')
+    for (var i = 0; i < allA.length; i++) {
+        allA[i].href = '/enterprise/auth/'
+    }
+})(window);
+</script>
+{% endif %}
+
+
+<script>
+(function(win) {
+
+
+    var getElementById = function(eleId) {
+        return document.getElementById(eleId)
+    }
+    //设置点击事件
+    var navItems = document.getElementsByClassName('can-expand')
+    var closeAll = function() {
+        var arrowDown = document.getElementsByClassName('down')
+        for (var i = 0; i < arrowDown.length; i++) {
+            arrowDown[i].className = arrowDown[i].className.replace('down', 'right')
+        }
+        var listShow = document.getElementsByClassName('show-list')
+        for (var j = 0; j < listShow.length; j++) {
+            listShow[j].className = ''
+        }
+    }
+    var handleEvent = function(dom) {
+        return function() {
+            var listDom = null
+            var arrowDom = null
+            for (var i = 0; i < dom.children.length; i++) {
+                if (dom.children[i].tagName == 'UL') {
+                    listDom = dom.children[i]
+                } else if (dom.children[i].tagName == 'P') {
+                    var pChild = dom.children[i].children
+                    for (var j = 0; j < pChild.length; j++) {
+                        if (pChild[j].className.indexOf('arrow') > -1) {
+                            arrowDom = pChild[j]
+                        }
+                    }
+                }
+            }
+            if (listDom.className.indexOf('show-list') > -1) {
+                closeAll()
+            } else {
+                closeAll()
+                listDom.className = 'show-list'
+                arrowDom.className = arrowDom.className.replace('right', 'down')
+            }
+        }
+    }
+    for (var i = 0; i < navItems.length; i++) {
+        navItems[i].addEventListener('click', handleEvent(navItems[i]), false)
+    }
+
+    //根据url展开
+    var urlData = [
+        { "url": "account/home", "id": "home", "itemId": "home" },
+        { "url": "material/launchs/launch", "id": "launch", "itemId": "launch" },
+
+        { "url": "material/company/list\\?flag=spon", "id": "exchange", "itemId": "enters-spon" },
+        { "url": "material/product/list\\?flag=spon", "id": "exchange", "itemId": "prods-spon" },
+
+        { "url": "material/company/list\\?flag=recv", "id": "audit-exchange", "itemId": "enters-recv" },
+        { "url": "material/product/list\\?flag=recv", "id": "audit-exchange", "itemId": "prods-recv" },
+
+        { "url": "material/company/infobank", "id": "bank", "itemId": "enter-bank" },
+        { "url": "material/authorize/list", "id": "bank", "itemId": "authorize-bank" },
+        { "url": "material/product/infobank", "id": "bank", "itemId": "prod-bank" },
+        { "url": "business/custom/", "id": "bank", "itemId": "custom" },
+
+        { "url": "enterprise/auth", "id": "enter", "itemId": "ca" },
+        { "url": "open/config", "id": "enter", "itemId": "open-platform"},
+        { "url": "enterprise/manage/permission", "id": "enter", "itemId": "manage-permission" },
+        { "url": "enterprise/manage/child", "id": "enter", "itemId": "manage-child" },
+        { "url": "enterprise/manage/audit", "id": "enter", "itemId": "manage-audit" },
+        { "url": "enterprise/people", "id": "enter", "itemId": "people" },
+        { "url": "enterprise/manage", "id": "enter", "itemId": "manage" },
+        { "url": "enterprise/seal", "id": "enter", "itemId": "seal" },
+
+        { "url": "charge/invoice", "id": "finance", "itemId": "invoice" },
+        { "url": "charge/records", "id": "finance", "itemId": "records" },
+        { "url": "charge/request", "id": "finance", "itemId": "charge" },
+
+        { "url": "authorization/list", "id": "ask", "itemId": "apply" },
+        { "url": "authorization/authorized", "id": "ask", "itemId": "authorized" },
+        { "url": "authorization/unauthorized", "id": "ask", "itemId": "unauthorized" },
+        { "url": "open/list", "id": "ask", "itemId": "open" },
+        { "url": "business/authorization/apply", "id": "ask", "itemId": "apply" },
+
+        { "url": "business/cliam/detail", "id": "ask", "itemId": "detail" },
+        { "url": "business/cliam/history", "id": "ask", "itemId": "history" },
+        { "url": "manufacturer/authorization/apply", "id": "ask", "itemId": "manu-apply" },
+
+
+        { "url": "business/enterprise/seal_ask", "id": "ask", "itemId": "seal_ask" },
+        { "url": "business/enterprise/seal_user", "id": "enter", "itemId": "seal_user" },
+
+        { "url": "material/cloudfile/product", "id": "cloud-files", "itemId": "product_files" },
+        { "url": "material/cloudfile/company", "id": "cloud-files", "itemId": "enterprise_files" },
+
+
+
+        // { "url": "", "id": "", "itemId": "" },
+
+        { "url": "costcenter/recharge_records", "id": "costcenter", "itemId": "costcenter_recharge_records" },
+        { "url": "costcenter/account", "id": "costcenter", "itemId": "costcenter_account" },
+        { "url": "costcenter/recharge", "id": "costcenter", "itemId": "costcenter_account" },
+
+        { "url": "costcenter/consumption", "id": "costcenter", "itemId": "costcenter_consumption" },
+        { "url": "costcenter/invoice_records", "id": "costcenter", "itemId": "costcenter_invoice_records" },
+        { "url": "costcenter/invoice", "id": "costcenter", "itemId": "costcenter_invoice_records" },
+        { "url": "costcenter/purchase_records", "id": "costcenter", "itemId": "costcenter_purchase_records" },
+
+    ]
+    var url = location.pathname.substr(1) + location.search;
+
+    for (var i = 0; i < urlData.length; i++) {
+        var item = urlData[i];
+        if (new RegExp('^' + item.url).test(url)) {
+
+            if (item.itemId == 'launch') {
+                getElementById('temp-left-launch').className = getElementById('temp-left-launch').className + ' active'
+                break
+            } else if (item.itemId == 'home') {
+                getElementById('temp-left-home').className = getElementById('temp-left-home').className + ' active';
+                break
+            }
+
+            var navItem = getElementById('temp-left-' + item.id + '-arrow');
+            if (navItem == undefined) {
+                return
+            }
+            navItem.className = navItem.className.replace('right', 'down')
+
+            var rawListId = 'temp-left-' + item.id + '-list'
+            if (rawListId) {
+                getElementById(rawListId).className = 'show-list'
+            }
+
+            var rawItemId = 'temp-left-' + item.itemId
+            if (rawItemId) {
+                if (getElementById(rawItemId))
+                    getElementById(rawItemId).className = ' active'
+            }
+            break
+        }
+    }
+})(window);
+</script>

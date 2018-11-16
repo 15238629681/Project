@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/common_home/index-1.0.css">
+</head>
+<body>
+	<div class="upgrade-top">
+		<a href="{% url 'website_index' %}"><img src="{{STATIC_URL}}images/new_home/name.png"></a>
+		<span>
+			<img src="{{STATIC_URL}}images/new_home/tips.png">
+			温馨提醒：您当前的浏览器版本过低，存在安全风险，建议升级浏览器！
+		</span>
+	</div>
+	<div class="browser-box">
+		<div class="fl computer">
+			<img src="{{STATIC_URL}}images/new_home/computer.png"><br>
+			<span>浏览器升级推荐</span>
+		</div>
+		<div class="triangle_border_right">
+		    <span></span>
+		</div>
+		<div class="browser-list">
+			<img src="{{STATIC_URL}}images/new_home/chrome_icon.png"><br>
+			<span class="browser_green">推荐选择</span><br>
+			<a href="http://www.google.cn/chrome/browser/desktop/"><span class="green-bg">谷歌浏览器 ></span></a>
+		</div>
+		<div class="browser-list">
+			<img src="{{STATIC_URL}}images/new_home/firefox_icon.png"><br>
+			<span class="browser_blue">推荐选择</span><br>
+			<a href="http://www.firefox.com.cn/"><span class="blue-bg">火狐浏览器 ></span></a>
+		</div>
+		<div class="browser-list">
+			<img src="{{STATIC_URL}}images/new_home/uc_icon.png"><br>
+			<span class="browser_orange">推荐选择</span><br>
+			<a href="http://www.uc.cn/"><span class="orange-bg">UC浏览器 ></span></a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{% block title%}{% endblock %}</title>
+    <style>
+    body{  
+      font-family: "Microsoft Yahei",tahoma,arial,"Hiragino Sans GB","helvetica neue",helvetica,arial,Sans-serif,"Hiragino Sans GB","Hiragino Sans GB W3","SimHei";
+      background-color: #fff;
+      position: relative;
+    }
+    html,body,section,h1,p,input,label,textarea,span,ul,li,dl,dt,dd,button,h2{  
+      margin:0;  padding:0;  
+    }
+    html,body {
+      height: 100%;
+    }
+    h2{font-weight: normal;}
+    button,textarea{
+      outline:0px none;
+      border:0 none;
+      background: transparent;
+    }
+    input,button {
+      outline: none;
+    }
+    ul li{
+      list-style: none;
+    }
+    /*h5 支持*/
+    header, section, footer, aside, nav, main, article, figure {  
+        display: block; 
+    }
+    .temp-material-header {
+      position: relative;
+      width: 1150px;
+      margin: 0 auto;
+      background-color: #f5f5f5;
+      height: 60px;
+      border: 1px solid #c9c9c9;
+    }
+    .temp-material-header > input {
+        height: 35px;
+        width: 80px;
+        border: 0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .temp-material-content {
+      position: relative;
+      margin: 5px auto 0;
+      width: 1150px;
+      height: 100%;
+      background-color: #f5f5f5;
+      border: 1px solid #c9c9c9;
+      overflow: auto;
+    }
+    .temp-material-content > .temp-material-left {
+      float: left;
+      width: 180px;
+      height: 100%;
+      /*background-color: #f98645;*/
+    }
+    .temp-material-content > .temp-material-left > div {
+      padding-top: 50px;
+    }
+    .temp-material-content > .temp-material-detail {
+      float: left;
+      min-width: 710px;
+      margin-top: 20px;
+      overflow: auto;
+      background: #fff;
+    }
+    .temp-material-content > .temp-material-thumbnail {
+      float: left;
+      width: 200px;
+      margin-top: 20px;
+      margin-left: 15px;
+      overflow: auto;
+      background: #fff;
+    }
+    </style>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?c7a77eff2e8cc0670fac6dec780dbd7a";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+	{% block header %}{% endblock %}
+  </head>
+  <body>
+    <header id="temp-material-header" class="temp-material-header">
+        {% block headerCont %}{% endblock %}
+    </header>
+    <section id="temp-material-content" class="temp-material-content">
+      <aside class="temp-material-left">
+        {% block leftNav %}{% endblock %}
+      </aside>
+      <div id="temp-material-detail" class="temp-material-detail">
+        {% block materDetail %}{% endblock %}
+      </div>
+      <aside id="temp-material-thumbnail" class="temp-material-thumbnail">
+        {% block materThumbnail %}{% endblock %}
+      </aside>
+    </section>
+    {% block scriptCont %}{% endblock %}
+  </body>
+  <script>
+    (function(win) {
+      //设置 content 高度
+      var tid = null
+      var content = document.getElementById('temp-material-content')
+      var detail = document.getElementById('temp-material-detail')
+      var thumbnail = document.getElementById('temp-material-thumbnail')
+      var changeConHeight = function() { 
+        var bodyHeight = document.body.clientHeight 
+        content.style.height = bodyHeight - 69 + 'px'
+        detail.style.height = bodyHeight - 95 + 'px'
+        thumbnail.style.height = bodyHeight - 95 + 'px'
+      }
+      win.addEventListener('resize', function() {
+        clearTimeout(tid)
+        tid = setTimeout(changeConHeight, 300)
+      }, false)
+      win.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            clearTimeout(tid)
+            tid = setTimeout(changeConHeight, 300);
+        }
+      }, false)
+      changeConHeight()
+    })(window)
+  </script>
+</html>

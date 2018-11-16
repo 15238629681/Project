@@ -1,0 +1,126 @@
+<style type="text/css">
+.none {
+    display: none;
+}
+.common_btn {
+    color:#fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari 和 Chrome */
+    padding: 10px;
+    margin-right: 10px
+}
+.comfirm_btn {
+    background: #40B2F1;
+}
+.cancel_btn {
+    background: #FF5722;
+}
+.mceng{
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+}
+.is_main{
+    padding: 15px 40px;
+    width: 480px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    color: #666;
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    margin-left: -240px;
+    z-index: 10001;  
+}
+.is_main .ukey_promot {
+    font-weight:bold;
+    color:#000;
+}
+.is_main .see {
+    font-weight:normal;
+    margin-left:10px;
+    color:#40B2F1;
+    text-decoration: underline;
+}
+.is_main .title {
+    padding-left: 10px;
+    border-left: 5px solid #40B2F1;
+}
+.is_main p {
+    margin-bottom: 20px;
+}
+.is_main .ul_list li {
+    margin-bottom: 15px; 
+}
+.is_main .ul_list li .sp {
+    width: 100px;
+    display: inline-block;
+}
+.is_main .ul_list li input[type="text"] {
+     width: 200px;
+     height: 30px;
+     line-height: 30px;
+     padding: 0 10px;
+     border: 1px solid #dedede;
+}
+.is_main .ul_list li input[type="text"].ukey_address {
+    width: 306px;
+}
+.is_main .ul_list li select {
+     width: 100px;
+     margin-right: 10px;
+     height: 30px;
+     line-height: 30px;
+     border: 1px solid #dedede;
+}
+</style>
+ <div id="ukey-address" class="none">
+    <div class="mceng"></div>
+    <div class="is_main">
+        <p class="ukey_promot" id="ukey_promot"></p>
+        <p>你需要使用Ukey来完成首营资料的签章发送、审核等操作。请填写下方收货地址，以便客服人员向您寄送Ukey<a class="see" href="/static/images/material/ukey_active.pdf" target="_blank">什么是ukey</a></p>
+        <p class="title">Ukey收货地址</p>
+        <ul class="ul_list">
+            <li>
+                <span class="sp">收货人:</span>
+                <input type="text" id="ukey_consignee" placeholder="请填写收货人姓名">
+            </li>
+            <li>
+                <span class="sp">手机号码:</span>
+                <input type="text" id="ukey_tel" placeholder="请填写手机号码">
+            </li>
+            <li>
+                <span class="sp">省—市—区:</span>
+                <select id="ukey_province">
+                </select>
+                <select id="ukey_city">
+                </select>
+                <select id="ukey_area">
+                </select>
+            </li>
+            <li>
+                <span class="sp">详细地址:</span>
+                <input type="text" id="ukey_address" class="ukey_address" placeholder="请填写详细地址">
+            </li>
+        </ul>
+        <div style="text-align: center;">
+            <button class="common_btn comfirm_btn" id="confirm_ukey">确 定</button>
+            <button class="common_btn cancel_btn" id="close_ukey">关 闭</button>
+        </div>
+    </div>
+</div>
+<!-- <button>{{request.original_user.ukey_status}}</button> -->
+<script type="text/javascript">
+    $(function() {
+        $(document).on('click', '#close_ukey', function() {
+            $('#ukey-address').addClass('none')
+        })
+    })
+</script>

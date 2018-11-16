@@ -1,0 +1,93 @@
+<style>
+    .temp-footer {
+        position: fixed;
+        left: 220px;
+        bottom: 0px;
+        width: 100%;
+        height: 80px;
+        background-color: white;
+        z-index: 101;
+        color: #979797;
+    }
+    /* .home, .support, .about-me {
+        vertical-align: 40%;
+    } */
+    .temp-footer > .footer-content {
+        position: relative;
+        border-top: 1px solid #e2e4e9;
+        padding-top: 15px; 
+        font-size: 12px;
+        overflow: hidden;
+    }
+    .temp-footer > .footer-content > .fl-le{
+        position: relative;
+        padding-left: 10px;
+        width: 500px;
+        display: inline-block;
+    }
+    .temp-footer > .footer-content > .fl-ri{
+        float: right;
+        margin-right: 230px;
+        overflow: hidden;
+        width: 400px;
+        display: inline-block;
+    }
+    .temp-footer > .footer-content > .fl-le > p {
+        margin: 0 10px;
+    }
+    .temp-footer > .footer-content > .fl-le > ul {
+        margin-bottom: 10px;
+    }
+    .temp-footer > .footer-content > .fl-le > ul > li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+    .temp-footer > .footer-content >.fl-ri > p {
+        color: #979797;
+        text-align: right;
+        margin-bottom: 6px;
+    }
+    a{ 
+        text-decoration: none;
+        color: #979797;
+    }
+    .hb-p > p{
+        text-align: right;
+        height: 30px;
+        line-height: 30px; 
+    }
+    .hb-p > p >img {
+         vertical-align: middle;
+         margin-right: 5px;
+    }
+
+</style>
+<div class="temp-footer" id="temp-footer">
+    <div class="footer-content">
+        <div class="fl-le">
+            <ul>
+                {% if request.links %}
+                    {% for link in request.links %}
+                        {% if forloop.counter == request.links.count %}
+                        <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                        {% else %}
+                        <li><a href="{{ link.url }}">{{ link.name }}</a></li>|
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                <li><a href="/" class="home">首页</a></li>|
+                <li><a href="{% url 'website_help' %}#1" class="support" target="_blank">操作指南</a></li>|
+                <li><a href="{% url 'news:news_list' %}#1" class="support" target="_blank">行业资讯</a></li>|
+                <li><a href="{% url 'website_contact_us' %}#1" class="about-me" target="_blank">关于我们</a></li>
+                {% endif %}
+            </ul>
+            <p>{{ request.bottom.content2 | default:'©2013-2018&emsp;杭州神中科技有限公司&emsp;客服电话：4006755008'}}</p>
+        </div>
+        <div class="fl-ri">
+            <p>{{ request.bottom.content1|default:'浙ICP备17027164号-1'}}</p>
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002013088" class="hb-p"> 
+                <p><img src="{{STATIC_URL}}images/new_home/jinghui.png">浙公网安备 33011002013088号</p >
+            </a >
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<style>
+    .temp-top-nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        z-index: 2;
+        border-bottom: 1px solid #e5e7eb;
+        margin-top: 35px;
+    }
+    .temp-top-nav > .nav-content {
+        margin: 0 auto;
+        width: 98%;
+        height: 100%;
+    }
+    .temp-top-nav > .nav-content > .nav-logo {
+        float: left;
+        margin-top:10px;
+        padding-left: 160px;
+        padding-top: 10px;
+        width: 237px;
+        height: 30px;
+        font-size: 20px;
+        color: #000;
+        background: url({{STATIC_URL}}images/cio-logo.png) no-repeat left center;
+        box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+    }
+    .temp-top-nav > .nav-content > .nav-logo a{
+        color: #000;
+        text-decoration: none;
+    }
+    .temp-top-nav > .nav-content > .nav-logo a:hover{
+        text-decoration: none;
+    }
+
+    .temp-top-nav > .nav-content > ul {
+        float: left;
+    }
+    .temp-top-nav > .nav-content > ul > li {
+        float: left;
+        min-width: 75px;
+        line-height: 60px;
+        text-align: center;
+    }
+    .temp-top-nav > .nav-content > ul > .active {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-top-nav > .nav-content > ul > li:hover {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    /* .temp-top-nav > .nav-content > .logout > a {
+        float: right;
+        margin-right: 15px;
+        line-height: 60px;
+        font-size: 14px;
+        color: #40B2F1;
+        text-decoration: none;
+    } */
+    .temp-top-nav > .nav-content > .logout > a > img{
+        float: right;
+        margin-right: 5px;
+        margin-top: 17px;
+    }
+    .temp-top-nav > .nav-content > .comp-name {
+        float: right;
+        margin-right: 10px;
+        line-height: 60px;
+        color: #979797;
+        /* border-right: 1px #595959 solid; */
+    }
+    .temp-top-nav > .nav-content > .ca-auth > input {
+        float: right;
+        margin: 15px 10px;
+        border: 0;
+        border-radius: 4px;
+        background: #40B2F1;
+        padding: 3px 8px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .temp-top-nav > .nav-content > .login-register {
+        display: none;
+    }
+    .temp-top-nav > .nav-content > .login-register > .login-a, .register-a {
+        float: right;
+        margin: 0 5px;
+        line-height: 60px;
+        color: #40B2F1;
+        text-decoration: none;
+    }
+    .solid{
+        border-right: 1px #e5e7eb solid;
+        height: 25px;
+        float: right;
+        margin: 18px 15px 15px 10px;
+    }
+    /*cio css*/
+    .exchangeHeader-cio{height: 35px;}
+      .exchangeHeader-fixed-cio{width: 100%; height: 35px;background: #555; font: normal 62.5%/2.3em Arial,"微软雅黑"; font-family: normal !important; position: fixed; left: 0; top: 0; z-index: 1989101}
+      .exchangeHeader-con-cio{width: 1080px; margin: 0 auto;  position: relative}
+      .exchangeHeader-nav-cio{display: inline-block}
+      .exchangeHeader-nav-cio a{padding: 0 6px;  color: #ddd;  height: 32px;  display: inline-block;  line-height: 32px;  border-bottom: 3px solid #555; font-size: 12px; text-decoration: none;  box-sizing: content-box;}
+      .exchangeHeader-nav-cio a.on,.exchangeHeader-nav-cio a:hover{color: #23b256;  border-bottom: 3px solid #23b256;}
+</style>
+    <div class="exchangeHeader-cio">
+       <div class="exchangeHeader-fixed-cio">
+          <div class="exchangeHeader-con-cio">
+             <div class="exchangeHeader-nav-cio">
+                <a href="http://www.ciopharma.com" target="_blank">CIO首页</a>
+                <a href="http://www.ciopharma.com/Pc/Ask" target="_blank">合规问答</a>
+                <a href="http://www.ciopharma.com/Pc/Ideabank" target="_blank">合规智库</a>
+                <a href="http://www.ciopharma.com/Pc/Train" target="_blank">合规培训</a>
+                <a href="http://www.ciopharma.com/Pc/Direction" target="_blank">合规风向</a>
+                <a href="http://www.ciopharma.com/Pc/Shop" target="_blank">合规服务</a>
+                <a href="http://www.ciopharma.com/Pc/Manager" target="_blank">合规管家</a>
+                <a class="on">电子首营交换</a>
+             </div>
+          </div>
+       </div>
+    </div>
+<!-- cio over -->
+<div class="temp-top-nav" id="temp-top-nav">
+    <div class="nav-content">
+        <div class="nav-logo">
+            <!--<img src="{{STATIC_URL}}images/index-logo.png" alt="logo">-->
+           <a href="{% url 'website_index' %}" style="display:block;width: 100%;height: 100%;">
+               |&emsp;首营资料电子交换平台
+           </a>
+        </div>
+        <span class="login-register"><a href="/account/register/index.html" class="register-a">注册</a><a href="/" class="login-a">登录</a></span>
+        <span class="logout"><a href="#" onclick="logout()"><img src="{{STATIC_URL}}images/header/back-home.png"></a></span>
+        <span class="solid"></span><span id="temp-comp-name" class="comp-name">{{user.name}}</span>
+        {% if not user.is_authorize %}
+            <a class="ca-auth" href="/enterprise/auth/"><input type="button" value="申请认证"></a>
+        {% endif %}
+    </div>
+    <img width="0" height="0" id="img">
+    <script>
+        var logout = function() {
+            document.getElementById("img").src="http://www.ciopharma.com/Pc/Auth/ShouYinLogout?uid={{request.session.third_uuid}}"
+            window.location.href = '/user/api/logout';
+        }
+    </script>
+    <script src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script>
+</div>
+

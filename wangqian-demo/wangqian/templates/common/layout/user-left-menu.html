@@ -1,0 +1,39 @@
+<!-- 医疗机构(7):已授权品种列表、未授权品种列表、开户商业公司管理
+商业公司/药店(5):企业资料交换列表、产品资料交换列表、申请授权列表（医疗机构像商业公司索取首营）
+        、已索取资料列表（商业公司向生产企业索取记录）、索取首营（商业公司向生产企业索取）
+生产企业(6):申请授权列表（商业公司向生产企业索取）、企业资料交换列表、产品资料交换列表 -->
+<ul class="temp-left-list">
+    <li id="temp-left-home" class="no-expand home">
+        <span class="icon" style="background-image: url({{STATIC_URL}}images/nav-icons-black1.png); background-size: 100%; margin-left: 25px;"></span>
+        <a href="/account/home/">工作台</a>
+    </li>
+    {% if user.type != 7 and user.type != 8 and user.type != 9 and user.type != 10 and user.type != 11 %}
+    <li id="temp-left-launch" class="no-expand ask">
+        <span class="icon" style="background-image: url({{STATIC_URL}}images/nav-icons-black2.png); margin-left: 25px;"></span>
+        <a href="/material/launchs/launch/">发送首营</a>
+    </li>
+    {% endif %}
+    {% for menu in menu_list %}
+        {% if menu.submenus %}
+            <li class="can-expand">
+                <p> <span class="icon" style="background-image: url({{STATIC_URL}}images/nav-icons-{{ menu.icon_png }}"></span> {{ menu.name }} <span id="temp-left-{{ menu.id }}-arrow" class="arrow right"></span></p>
+                <ul id="temp-left-{{ menu.id }}-list">
+                    {% for submenu in menu.submenus %}
+                    <li id="temp-left-{{ submenu.id }}"><a href="{{ submenu.href }}">{{ submenu.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+            <li class="no-expand" id="temp-left-{{ menu.id }}"><a href="{{ menu.href }}">{{ menu.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if user.group_id %}
+        <li class="can-expand">
+            <p> <span class="icon" style="background-image: url({{STATIC_URL}}images/nav-icons-black5.png"></span> 首营资料共享库 <span id="temp-left-share_group_tag-arrow" class="arrow right"></span></p>
+            <ul id="temp-left-share_group_tag-list">
+                    <li id="temp-left-owner_group_share"><a href="/material/share/exchange/list/">首营资料公共库</a></li>
+                    <li id="temp-left-all_group_share"><a href="/material/share/owner/exchange/list/">我分享的首营资料</a></li>
+            </ul>
+        </li>
+    {% endif %}
+</ul>

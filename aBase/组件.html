@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义组件</title>
+</head>
+<body>
+    <div class="mainDiv">
+        <aaa></aaa>
+        <sss></sss>
+
+        <input type="button" value="组件1" @click="changeComponent('one')">
+        <input type="button" value="组件2" @click="changeComponent('two')">
+        <component :is="who"></component>
+    </div>
+
+    <script src="vue.js"></script>
+    <script src="vue-resource.js"></script>
+    <script>
+        var temp = Vue.extend({
+            template: '<strong>全局组件</srong>'
+        })
+        Vue.component('sss',temp)
+
+
+
+        var vm = new Vue({
+            el:'.mainDiv',
+            data: {
+                aaa1: 'AAA',
+                who: 'two'
+            },
+            components: {
+                'aaa': {
+                    template:'<p>局部组件</p>'
+                },
+                'one':{
+                    template:'<h3>组件1</h3>'
+                },
+                'two': {
+                    template:'<h3>组件2</h3>'
+                }
+            },
+            methods: { 
+                changeComponent: function(ev){
+                    this.who = ev;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

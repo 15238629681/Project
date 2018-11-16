@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./vue.js"></script>
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        div{
+            margin-bottom:10px;
+        }
+        .redClass{
+            background: lightgrey;
+        }
+        .blueClass{
+            color:blue;
+        }
+        h3{
+            font-weight: normal;
+        }
+
+        .jsonClass{
+            color: red;
+        }
+        .jsonClass2{
+            background: yellowgreen;
+        }
+
+    [v-cloak]{
+        display:none;
+    }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <!-- 样式  类名 -->
+        <div class="mainBox" @click="mainClick($event)" v-bind:class="{redClass:true}">
+            <h3 v-on:click="look($event)" >点击我1</h1>
+        </div>
+
+        <div class="mainBox" @click="mainClick($event)" v-bind:class="{redClass:a,blueClass:b}">
+                <h3 v-on:click="look($event)" >点击我2</h1>
+        </div>
+
+        <div class="mainBox" @click="mainClick($event)" v-bind:class="{redClass:a,blueClass:b}" :style="{height: heightNum, fontSize: fontSize}">
+                <h3 v-on:click="look($event)" >点击我3</h1>
+        </div>
+
+        <div class="mainBox" @click="mainClick($event)" :class="jsonClassData" :style="jsonStyle">
+                <h3 v-on:click="look($event)" >点击我4</h1>
+        </div>
+
+        <div class="mainBox"  :style="[arr1,arr2]">
+                <h3 v-on:click="look($event)" >点击我5</h1>
+        </div>
+
+        <hr>
+
+        {{{<h1>我是span标签内的h1标签</h1>}}}
+
+        <hr>
+
+        <!-- 循环  会 警告-->
+        <!-- <ul>
+            <li v-for="item in circleData">{{item}}</li>
+        </ul> -->
+        <hr>
+
+        <ul>
+            <li v-for="item in circleData"  track-by="$index">{{item}}</li>
+        </ul>
+
+        <hr>
+
+        <!-- 过滤器 -->
+        <ul>
+            <li v-for="item in timeArr" track-by="$index">
+                {{item | timeFilter }}</li>
+        </ul>
+
+        <!-- 自定义指令 -->
+        <div v-red>我是自定义指令</div>
+
+        <hr>
+
+        <!-- 自定义拖动指令 -->
+        <div v-drag :style="{width: '200px', height:'200px',border: '1px solid red',lineHeight:'200px',textAlign:'center',position:'absolute',top:'0px',left:'0px',background:'gray'}">我是一个拖动的小方块</div>
+
+    </div>
+
+    
+    <script>
+        Vue.filter('timeFilter',function(a){
+            var input = new Date(a);
+            // var a = input/1000;
+            return input.getFullYear() + '-' + (input.getMonth() +1) +'-' +input.getDate() +' '+input.getHours()+":"+input.getMinutes()+':'+input.getSeconds()
+        });
+
+        Vue.directive('red',function(){
+            console.log(this.el)
+            this.el.style.color = 'red';
+        })
+
+        Vue.directive('drag',function(){
+            var oDiv = this.el;
+            // var disX, disY;
+            oDiv.onmousedown = function(ev){
+                var disX = ev.clientX - ev.offsetLeft;
+                var disY = ev.clientY - ev.offsetTop;
+                
+                oDiv.onmousemove = function(ev){
+                    console.log(ev);
+                    var x = ev.clientX - disX;
+                    var y = ev.clientY - disY;
+                    ev.target.style.left = x + 'px';
+                    ev.target.style.top = y +'px';
+                }
+
+                oDiv.onmouseup = function(){
+                    oDiv.onmousemove = null;
+                    oDiv.onmouseup = null;
+                }
+
+            }
+           
+        })
+        var vm = new Vue({
+            el:'#app',
+            aa:'aa',
+            data:{
+                a: true,
+                b: true,
+                heightNum: '50px',
+                fontSize: '30px',
+
+                jsonClassData:{  //jsonClassData为data里的数据，数据类型为json，key为类名，value为true或者false
+                    jsonClass:true,
+                    jsonClass2:true
+                },
+                jsonStyleData:{  //为data里的数据，key为设置的属性的类型，复合样式采用驼峰命名的方式，value为设置的属性值
+                    fontSize: '12px',
+                    width: '200px'
+                },
+
+                arr1:{  //style样式，arr1作为数组元素中的其中一个元素
+                    color:'white',
+                    backgroundColor: "pink",
+                    lineHeight: '60px',
+                    textAlign: 'center'
+                },
+                arr2: {
+                    fontSize: '18px',
+                    height: '60px'
+                },
+
+                circleData:['苹果','苹果','香蕉'],
+
+                circleData2:['苹果','苹果','香蕉','苹果'],
+
+                timeArr:[1536549939414,1536549839414,1526549839414,1536549899414,1539549839414,1536549939414]
+            },
+            methods:{
+                look: function(ev){
+                    alert(ev.target.innerHTML)
+                },
+                mainClick: function(ev){
+                    alert('mainBox');
+                },
+
+                // vue生命周期
+                created: function(){
+                    console.log('vue实例创建成功')
+                },
+                beforeCompile: function(){
+                    console.log('编译之前')
+                },
+                compiled: function(){
+                    console.log('编译之后')
+                },
+                ready: function(){
+                    console.log('文本节点插入到文档中')
+                },
+                beforedDestory: function(){
+                    console.log('销毁之前')
+                },
+                destory: function(){
+                    console.log('销毁之后')
+                }
+            }
+        })
+
+        // console.log(vm.$el)//实例对象
+        // console.log(vm.$options.aa) //获取自定义属性
+        // console.log(vm.$log) //现在数据的状态
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+{% load extags %}
+<style>
+.temp-left-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 220px;
+    min-height: 450px;
+    color: #fff;
+    background-color: #3D4049;
+    z-index: 1000;
+    font-size: 16px;
+}
+
+.temp-left-nav>.temp-left-list {
+    margin-top: 15px;
+    width: 100%;
+    min-height: 300px;
+}
+
+.temp-left-nav>.temp-left-list>.no-expand {
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.temp-left-nav>.temp-left-list>.no-expand:hover {
+    color: #40B2F1;
+}
+
+.temp-left-nav>.temp-left-list>.active,
+.temp-left-nav>.temp-left-list>.can-expand>ul>.active {
+    background-color: #4C5268;
+    color: #40B2F1;
+}
+
+.temp-left-nav>.temp-left-list>.active>a,
+.temp-left-nav>.temp-left-list>.can-expand>ul>.active>a {
+    color: #40B2F1;
+    border-left: 5px solid #40B2F1;
+}
+
+.temp-left-nav>.temp-left-list a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.temp-left-nav>.temp-left-list a:hover {
+    color: #40B2F1;
+}
+
+.temp-left-nav>.temp-left-list .icon {
+    display: inline-block;
+    margin: 0 15px -5px 30px;
+    width: 20px;
+    height: 20px;
+    background-image: url({{STATIC_URL}}images/nav-icons-crm.png);
+    background-size: 400% 100%;
+}
+
+.temp-left-nav>.temp-left-list>.active>a>.icon {
+    display: inline-block;
+    margin: 0 15px -5px 30px;
+    width: 20px;
+    height: 20px;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>p {
+    position: relative;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>p>.arrow {
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 17px;
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+    background-size: 100%;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>p>.right {
+    background-image: url({{STATIC_URL}}images/arrow-right.png);
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>p>.down {
+    background-image: url({{STATIC_URL}}images/arrow-down.png);
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>ul {
+    max-height: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: max-height .5s ease-in-out;
+    -webkit-transition: max-height .5s ease-in-out;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>.show-list {
+    max-height: 500px;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>ul>li {
+    position: relative;
+    line-height: 35px;
+    text-align: center;
+}
+
+.temp-left-nav>.temp-left-list>.can-expand>ul>li:hover {
+    color: #40B2F1;
+}
+
+.temp-left-nav>.temp-left-list .icon-list {
+    background-position: 0% 0;
+}
+
+.temp-left-nav>.temp-left-list .icon-user {
+    background-position: 33% 0;
+}
+
+.temp-left-nav>.temp-left-list .icon-financial {
+    background-position: 66% 0;
+}
+
+.temp-left-nav>.temp-left-list .icon-template {
+    background-position: 100% 0;
+}
+.icon-subsite {
+    background-image: url({{STATIC_URL}}images/nav-icons-subsite.png);
+    background-size: 100%;
+    margin-left: 25px;
+}
+</style>
+<div id="temp-left-nav" class="temp-left-nav">
+    {% render_crm_menu %}
+</div>
+<script>
+(function(win) {
+    //设置点击事件
+    var navItems = document.getElementsByClassName('can-expand')
+    var closeAll = function() {
+        var arrowDown = document.getElementsByClassName('down')
+        for (var i = 0; i < arrowDown.length; i++) {
+            arrowDown[i].className = arrowDown[i].className.replace('down', 'right')
+        }
+        var listShow = document.getElementsByClassName('show-list')
+        for (var j = 0; j < listShow.length; j++) {
+            listShow[j].className = ''
+        }
+    }
+    var getElementById = function(eleId) {
+        return document.getElementById(eleId)
+    }
+    var handleEvent = function(dom) {
+        return function() {
+            var listDom = null
+            var arrowDom = null
+            for (var i = 0; i < dom.children.length; i++) {
+                if (dom.children[i].tagName == 'UL') {
+                    listDom = dom.children[i]
+                } else if (dom.children[i].tagName == 'P') {
+                    var pChild = dom.children[i].children
+                    for (var j = 0; j < pChild.length; j++) {
+                        if (pChild[j].className.indexOf('arrow') > -1) {
+                            arrowDom = pChild[j]
+                        }
+                    }
+                }
+            }
+            if (listDom.className.indexOf('show-list') > -1) {
+                closeAll()
+            } else {
+                closeAll()
+                listDom.className = 'show-list'
+                arrowDom.className = arrowDom.className.replace('right', 'down')
+            }
+        }
+    }
+    for (var i = 0; i < navItems.length; i++) {
+        navItems[i].addEventListener('click', handleEvent(navItems[i]), false)
+    }
+    //根据url展开
+    var url = location.href
+
+    var urlData = [
+        { "url": "company/list", 'id': "material", "itemId": "material" },
+        { "url": "product/list", 'id': "material", "itemId": "product" },
+        { "url": "contract/list", 'id': "material", "itemId": "contract" },
+        { "url": "material_logs/list", 'id': "material", "itemId": "material-log" },
+        { "url": "unregistered/list", 'id': "material", "itemId": "unregistered" },
+        { "url": "charge/list", 'id': "financial", "itemId": "charges" },
+        { "url": "charge/invoice", 'id': "financial", "itemId": "invoices" },
+
+        { "url": "company/temp", 'id': "template", "itemId": "temp-enter" },
+        { "url": "product/temp", 'id': "template", "itemId": "temp-prod" },
+
+        // 药监菜单
+        { "url": "profile", 'id': "profile" },
+        { "url": "circulation/list", 'id': "yj", "itemId": "circulation" },
+        { "url": "company/list", 'id': "yj", "itemId": "monitor-material" },
+        { "url": "commonuser/list", 'id': "yj", "itemId": "commonuser" },
+        { "url": "category/list", 'id': "yj", "itemId": "category" },
+
+        // 业务统计
+        { "url": "statistics/index", 'id': "statistics", "itemId": "statistics" },
+
+        // 用户管理
+        { "url": "ukey/list", 'id': "user", "itemId": "ukey" },
+        { "url": "normal/list", 'id': "user", "itemId": "users" },
+        { "url": "operator/list", 'id': "user", "itemId": "operators" },
+        { "url": "account/crm/create", 'id': "user", "itemId": "create" },
+        { "url": "ca/list", 'id': "user", "itemId": "cas" },
+        { "url": "appeal/list", 'id': "user", "itemId": "appeals" },
+        { "url": "user/conlog", "id": "user", "itemId": "user-conlog"},
+        { "url": "record/operation", "id": "user", "itemId": "user-operation"},
+        // 分站管理
+        { "url": "subsite", "id": "subsite"}
+    ]
+
+    for (var i = 0; i < urlData.length; i++) {
+        var item = urlData[i];
+        if (url.indexOf(item.url) > -1) {
+            var navItem = getElementById('temp-left-' + item.id + '-arrow');
+
+            if(navItem == undefined){
+                continue
+            }
+            navItem.className = navItem.className.replace('right', 'down')
+
+            var rawListId = 'temp-left-' + item.id + '-list'
+            if (rawListId) {
+                getElementById(rawListId).className = 'show-list'
+            }
+
+            var rawItemId = 'temp-left-' + item.itemId
+            if (rawItemId) {
+                console.log(rawItemId)
+                if (getElementById(rawItemId))
+                    getElementById(rawItemId).className = ' active'
+            }
+            break
+        }
+    }
+
+})(window)
+</script>

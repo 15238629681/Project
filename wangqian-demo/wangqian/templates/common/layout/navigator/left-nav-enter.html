@@ -1,0 +1,262 @@
+<style>
+    .temp-left-nav{
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 220px;
+        color: #fff;
+        background-color: #3D4049;
+        z-index: 10000;
+        text-align: left;
+        font-size: 16px;
+        margin-bottom: -3000px;
+        padding-bottom: 3000px;
+        overflow: hidden;
+        bottom: 0;
+    }
+    .temp-left-nav > .temp-left-list {
+        margin-top: 15px;
+        width: 100%;
+        min-height: 300px;
+    }
+    .temp-left-nav > .temp-left-list >.no-expand {
+        line-height: 50px;
+        cursor: pointer;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home:hover {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home.active,
+    .temp-left-nav > .temp-left-list > .can-expand > ul > .active {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-left-nav > .temp-left-list > .active > a,
+    .temp-left-nav > .temp-left-list > .can-expand > ul > .active > a {
+        color: #fff;
+    }
+    .temp-left-nav > .temp-left-list a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        color: #555e5b;
+        text-align: center;
+        text-decoration: none;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand > a {
+        width: 45%;
+    }
+    .temp-left-nav > .temp-left-list  a:hover {
+        color: #fff;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home:hover > .icon {
+        background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+        background-size: 100% 100%;
+    }
+    .temp-left-nav > .temp-left-list > .no-expand.home.active > .icon {
+        background-image: url({{STATIC_URL}}images/nav-icons-white.png);
+        background-size: 100% 100%;
+    }
+    .temp-left-nav > .temp-left-list .icon {
+        display: inline-block;
+        margin: 0 15px -5px 30px;
+        width: 20px;
+        height: 20px;
+        background-image: url({{STATIC_URL}}images/nav-icons-black.png);
+        background-size: 700% 100%;
+    }
+    .temp-left-nav > .temp-left-list > .active > a > .icon {
+        display: inline-block;
+        margin: 0 15px -5px 30px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .temp-left-nav > .temp-left-list > .can-expand > p {
+        position: relative;
+        line-height: 50px;
+        cursor: pointer;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .arrow {
+        display: inline-block;
+        position: absolute;
+        right: 15px;
+        top: 17px;
+        width: 15px;
+        height: 15px;
+        margin-left: 10px;
+        background-size: 100%;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .right {
+        background-image: url({{STATIC_URL}}images/arrow-right.png);
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > p > .down {
+        background-image: url({{STATIC_URL}}images/arrow-down.png);
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > ul {
+        max-height: 0;
+        overflow: hidden;
+        cursor: pointer;
+        transition: max-height .5s ease-in-out;
+        -webkit-transition: max-height .5s ease-in-out;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > .show-list {
+         max-height: 500px;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > ul > li {
+        position: relative;
+        line-height: 35px;
+        text-align: center;
+    }
+    .temp-left-nav > .temp-left-list > .can-expand > ul > li:hover {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+</style>
+
+<div id="temp-left-nav" class="temp-left-nav">
+    <ul class="temp-left-list">
+        <!--<li class="no-expand"><a><span class="icon" style="background-position: 100% 0"></span>合同列表</a></li>
+        <li class="no-expand"><a><span class="icon" style="background-position: 48% 0"></span> 企业资料交换列表</a></li>
+        <li class="no-expand active"><a><span class="icon" style="background-position: 72% 0"></span>产品资料交换列表</a></li>-->
+        <li id="temp-left-home" class="no-expand home" >
+            <span class="icon" ></span>
+            <a href="/account/home/">首页</a>
+        </li>
+        <li id="temp-left-launch" class="no-expand" style="border-left: 5px solid #3d4049;">
+            <span class="icon" style="background-position: 17% 0"></span>
+            <a href="/material/launchs/launch/" style="color:#40B2F1;">发起首营交换</a>
+        </li>
+        <li class="can-expand">
+            <p> <span class="icon" style="background-position: 33% 0"></span> 首营交换管理 <span id="temp-left-exchange-arrow" class="arrow right"></span></p> 
+            <ul id="temp-left-exchange-list">
+                <li id="temp-left-enters"><a href="/material/company/list/">企业资料交换列表</a></li>
+                <li id="temp-left-prods"><a href="/material/product/list/">产品资料交换列表</a></li>
+                <li id="temp-left-conts"><a href="/material/contract/list/">合同列表</a></li>
+            </ul>
+        </li>
+        <li class="can-expand">
+            <p> <span class="icon" style="background-position: 67% 0"></span> 素材库 <span id="temp-left-bank-arrow" class="arrow right"></span></p> 
+            <ul id="temp-left-bank-list">
+                <li id="temp-left-enter-bank"><a href="/material/company/infobank/list/">企业资料素材库</a></li>
+                <li id="temp-left-prod-bank"><a href="/material/product/infobank/list/v2">产品资料素材库</a></li>
+            </ul>
+        </li>
+        <li class="can-expand">
+            <p> <span class="icon" style="background-position: 83% 0"></span> 企业信息管理 <span id="temp-left-enter-arrow" class="arrow right"></span></p> 
+            <ul id="temp-left-enter-list">
+                <li id="temp-left-manage"><a href="/enterprise/manage">企业资料</a></li>
+                <li id="temp-left-manage"><a href="/enterprise/manage/child">子账户管理</a></li>
+                <li id="temp-left-seal"><a href="/enterprise/seal">签章管理</a></li>
+                <li id="temp-left-ca"><a href="/enterprise/auth/">CA证书申请</a></li>
+            </ul>
+        </li>
+        {% if user.is_authorize %}
+        <li class="can-expand">
+            <p> <span class="icon" style="background-position: 100% 0"></span> 财务管理 <span id="temp-left-finance-arrow" class="arrow right"></span></p> 
+            <ul id="temp-left-finance-list">
+                <li id="temp-left-charge"><a href="/account/charge/request/">账户充值</a></li>
+                <li id="temp-left-records"><a href="/account/charge/records/">充值记录</a></li>
+                <li id="temp-left-invoice"><a href="/account/charge/invoice/">发票索取</a></li>
+            </ul>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+<script>
+    (function(win) {
+        //设置点击事件
+         var navItems = document.getElementsByClassName('can-expand')
+         var closeAll = function() {
+            var arrowDown = document.getElementsByClassName('down')
+            for(var i=0; i<arrowDown.length; i++) {
+                arrowDown[i].className = arrowDown[i].className.replace('down', 'right')
+            }
+            var listShow = document.getElementsByClassName('show-list')
+            for(var j=0; j<listShow.length; j ++) {
+                listShow[j].className = ''
+            }
+         }
+         var handleEvent = function(dom) {
+             return function() { 
+                 var listDom = null
+                 var arrowDom = null
+                 for(var i=0; i<dom.children.length; i++) {
+                     if(dom.children[i].tagName == 'UL') {
+                         listDom = dom.children[i]
+                     } else if(dom.children[i].tagName == 'P') {
+                         var pChild = dom.children[i].children
+                         for(var j=0; j<pChild.length; j++) {
+                             if(pChild[j].className.indexOf('arrow') > -1) {
+                                 arrowDom = pChild[j]
+                             }
+                         }
+                     }
+                 }
+                if(listDom.className.indexOf('show-list') > -1) {
+                    closeAll()
+                } else {
+                    closeAll()
+                    listDom.className = 'show-list'
+                    arrowDom.className = arrowDom.className.replace('right', 'down')
+                }
+            }
+         }
+         for(var i=0; i<navItems.length; i++) {
+             navItems[i].addEventListener('click', handleEvent(navItems[i]), false)
+         }
+
+         //根据url展开
+         var url = location.href
+         if(url.indexOf('account/home') > -1) {
+             document.getElementById('temp-left-home').className = document.getElementById('temp-left-home').className + ' active'
+         } else if( url.indexOf('material/launch') > -1) {
+             document.getElementById('temp-left-launch').className = document.getElementById('temp-left-launch').className + ' active'
+         } else if(url.indexOf('company/list') > -1) {
+             document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-exchange-list').className = 'show-list'
+             document.getElementById('temp-left-enters').className = ' active'
+         } else if(url.indexOf('contract/list') > -1) {
+             document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-exchange-list').className = 'show-list'
+             document.getElementById('temp-left-conts').className = ' active'
+         } else if(url.indexOf('product/list') > -1) {
+             document.getElementById('temp-left-exchange-arrow').className = document.getElementById('temp-left-exchange-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-exchange-list').className = 'show-list'
+             document.getElementById('temp-left-prods').className = ' active'
+         } else if(url.indexOf('company/infobank') > -1) {
+             document.getElementById('temp-left-bank-arrow').className = document.getElementById('temp-left-bank-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-bank-list').className = 'show-list'
+             document.getElementById('temp-left-enter-bank').className = ' active'
+         }  else if(url.indexOf('product/infobank') > -1) {
+             document.getElementById('temp-left-bank-arrow').className = document.getElementById('temp-left-bank-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-bank-list').className = 'show-list'
+             document.getElementById('temp-left-prod-bank').className = ' active'
+         } else if(url.indexOf('enterprise/auth') > -1) {
+             document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-enter-list').className = 'show-list'
+             document.getElementById('temp-left-ca').className = ' active'
+         } else if(url.indexOf('enterprise/manage') > -1) {
+             document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-enter-list').className = 'show-list'
+             document.getElementById('temp-left-manage').className = ' active'
+         }else if(url.indexOf('enterprise/seal') > -1) {
+             document.getElementById('temp-left-enter-arrow').className = document.getElementById('temp-left-enter-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-enter-list').className = 'show-list'
+             document.getElementById('temp-left-seal').className = ' active'
+         } else if(url.indexOf('charge/records') > -1) {
+             document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-finance-list').className = 'show-list'
+             document.getElementById('temp-left-records').className = ' active'
+         } else if(url.indexOf('charge/records') > -1) {
+             document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-finance-list').className = 'show-list'
+             document.getElementById('temp-left-invoice').className = ' active'
+         }  else if(url.indexOf('charge/request') > -1) {
+             document.getElementById('temp-left-finance-arrow').className = document.getElementById('temp-left-finance-arrow').className.replace('right', 'down')
+             document.getElementById('temp-left-finance-list').className = 'show-list'
+             document.getElementById('temp-left-charge').className = ' active'
+         } 
+    })(window)
+</script>

@@ -1,0 +1,16 @@
+<ul class="temp-left-list">
+    {% for menu in menu_list %}
+        {% if menu.submenus %}
+            <li class="can-expand">
+                <p> <span class="icon {{ menu.icon_class }}"></span> {{ menu.name }} <span id="temp-left-{{ menu.id }}-arrow" class="arrow right"></span></p>
+                <ul id="temp-left-{{ menu.id }}-list">
+                    {% for submenu in menu.submenus %}
+                    <li id="temp-left-{{ submenu.id }}"><a href="{{ submenu.href }}">{{ submenu.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+            <li class="no-expand" id="temp-left-{{ menu.id }}"><a href="{{ menu.href }}">{{ menu.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>

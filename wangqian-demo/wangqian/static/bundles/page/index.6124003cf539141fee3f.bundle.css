@@ -1,0 +1,73 @@
+/*layui-table-1.0.css*/
+/*layui table css reset*/
+.layui-table {
+	width: 100%;
+}
+/*.layui-table-header .layui-table {
+	color: #fff;
+}*/
+.layui-table-body {
+	color: #666;
+	overflow: hidden;
+}
+/*.layui-table-header {
+	background: #40B2F1
+}*/
+/*.layui-table-header table thead tr {
+	background: #40B2F1
+}*/
+.layui-table-header .layui-table-cell {
+	line-height: 28px;
+	text-align: center;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+	background: #40B2F1
+}
+.layui-table-cell {
+	/* overflow: auto; */
+	/* overflow-x: hidden; */
+	word-break: break-all;
+	white-space:normal;
+	height: auto;
+	line-height: 24px;
+}
+
+
+.layui-btn-danger{
+    width: 84px;
+    height: 26px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: SourceHanSansCN-Light;
+    color: #E71F10;
+    border: 1px solid  #E71F10;
+    line-height: 26px; 
+    background:#fff;
+}
+.layui-btn-danger:hover{
+	color:#E71F10;
+}
+.layui-btn-normal{
+    width: 84px;
+    height: 26px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: SourceHanSansCN-Light;
+    color: #1e9eff;
+    border: 1px solid  #1E9EFF;
+    line-height: 26px; 
+    background:#fff;
+}
+
+.layui-btn-normal:hover{
+	color:#1e9eff;
+}
+
+.layui-btn+.layui-btn {
+    margin-left: 0px;
+    margin-bottom:4px;
+}
+.layui-btn{
+    margin-bottom:4px;
+    margin-right:4px;
+}

@@ -1,0 +1,449 @@
+<!-- base-top-bottom.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Keywords" content="首营资料电子交换平台,首营资料,首营电子资料交换平台,杭州神中科技,001pt,首营电子资料,首营资料线上交换,首营资料电子交换平台,首营资料网络交换平台,首营电子资料交换,首营资料网络交换,首营资料平台,首营电子平台,器械首营资料交换平台,首营资料电子交换,器械首营资料交换,药品首营资料交换平台,首营电子资料交换平台,药品首营资料交换,电子首营资料交换平台,首营电子交换,首营资料交换,首营资料交换平台,首营资料线上交换平台,首营电子交换平台"/>
+    <meta name="description" content="国内首家首营资料在线交换系统" />
+    <meta http-equiv=X-UA-Compatible content=IE=EmulateIE9>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/common_home/index-3.6.css?v=2.0">
+    <title>{% block title%}{% endblock %}</title>
+    <style>{{ request.bottom.content1|default:'浙ICP备17027164号-1'}}
+        .tabCon_item {
+	        position: relative;
+        }
+        .video-p {
+            position: absolute;
+            top: 175px;
+            left: 50%;
+            margin-left: -56px;
+            z-index: 100;
+        }
+        .video-p img{
+            width: 112px;
+            height: 112px;
+        }
+        .font-small{
+          font-size: 14px;
+        }
+        h1 a{
+          color: #000;
+        }
+        h1 a:hover{
+          text-decoration: none;
+        }
+        .web-name{
+          position: relative;
+          z-index: 3;
+          width: 500px;
+        }
+        .web-name span{
+          display: inline-block;
+        }
+        .web-name a img{
+          margin-top: -5px;
+          vertical-align: middle;
+        }
+        .change-sub{
+          font-size: 12px;
+          padding: 2px 5px;
+          color: #40b2f1;
+            cursor:pointer;
+        }
+        .change-sub:hover{
+          color: #f90;
+        }
+        .arealist{
+          position: absolute;
+          z-index: 10;
+          top: 60px;
+          left: 220px;
+          padding: 20px;
+          width: 500px;
+          line-height: 30px;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 3px;
+          box-shadow: 0 0 3px #ccc;
+          display: none;
+        }
+        .arealist li{
+          float: left;
+          display: inline-block;
+          border: 1px solid #ccc;
+          padding: 0 8px;
+          border-radius: 3px;
+          margin-right: 10px;
+          font-style: normal;
+          color: #000;
+            margin-bottom: 10px;
+        }
+        .arealist li a{
+          display: inline-block;
+          width: 40px;
+        }
+        .arealist li:hover{
+          color: #fff;
+          background-color: #40b2f1;
+          border: 1px solid #40b2f1;
+        }
+        .change-sub:hover ul{
+          display: block;
+        }
+        .btn-border-gary{ 
+            border-bottom: 3px solid #40b2f1 !important; 
+            color: #40b2f1 !important;
+        }
+        .verify-phone > p.p-verify{
+          margin: 5px;
+          height: 50px;
+          line-height: 50px;
+          border-bottom: 3px solid #c7c7c7;
+          margin: 0 48px;
+        }
+        .verify-phone > p.p-verify button{
+            outline: none;
+            font-size: 16px;
+            color: #3E3A39;
+            font-weight: 800;
+            border: none;
+            background: #fff;
+            cursor: pointer;
+            /* margin-left: 30px; */
+            width: 120px;
+            height: 53px;
+            /* border: 3px solid #fff; */
+            border-bottom: 3px solid #c7c7c7;
+        }
+        .binding-wechat{
+          padding:10px 46px;
+          text-align: center;
+        }
+        .binding-wechat .two-bar-codes{
+          width: 200px;
+          height: 200px;
+          border: 1px dashed red;
+          margin: 20px auto;
+        }
+        .binding-phone{
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+  
+  <script type="text/javascript" src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="{{STATIC_URL}}common/js/layer/layer.js"></script>
+  <script type="text/javascript">
+
+    function BrowserType(){
+      var userAgent = navigator.userAgent
+      var isOpera = userAgent.indexOf("Opera") > -1; //判断是否Opera浏览器 
+      var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器 
+      if(isIE){
+           var reIE = new RegExp("MSIE (\\d+\\.\\d+);");  
+           reIE.test(userAgent);  
+           var fIEVersion = parseFloat(RegExp["$1"]); 
+           if(fIEVersion <=8){
+               location.href = '/upgrade'
+               return false
+           }
+      }
+    }
+
+    BrowserType()
+    
+    ;(function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+ </script>
+<body>
+  <div>
+    <!-- 顶部 公共部分 -->
+    <div class="topbar">
+        <div class="content-width text-right">
+            <img src="{{STATIC_URL}}images/new_home/phone.png"><span>咨询热线：</span><span class="phone-number">4006755008</span>  
+        </div>
+    </div>
+    <div style="background: #fff;">
+        <div class="content-width menu">
+          <div class="fl web-name">
+              <h1>
+                 <!-- 药械流通资料交换和管理平台 -->
+
+                        <a href="{% url 'website_index' %}">
+                      {% if request.sub_site.logo %}
+                        <img src="{{ MEDIA_URL }}{{ request.sub_site.logo }}"  height="32px">
+                       {% else %}
+                          <img src="{{STATIC_URL}}images/new_home/name.png"  height="32px">
+                      {% endif %}
+                        <span class="font-small" id="subsite_name"> - {{ request.sub_site.province|default:'全国' }}站</span>
+                                     </a>
+                        <span class="change-sub">[切换站点]
+                          <ul class="arealist">
+                              <li><a href="https://www.syzljh.cn">全国</a></li>
+                              {% for site in request.subsites %}
+                                  <li><a href="https://{{ site.site }}">{{ site.province }}</a></li>
+                              {% endfor %}
+                          </ul>
+                        </span>
+
+              </h1>
+          </div>
+          <ul class="fr nav" id="nav_tab_ul">
+              <li class="item_index"><a href="{% url 'website_index' %}">首页</a></li>
+              <li class="item_news"><a href="/news#1">行业资讯</a></li>
+
+              <!-- <li class="item_cio"><a target="_blank" href="http://www.ciopharma.com/Pc">CIO合规</a></li>
+   -->            
+              <li class="item_help"><a href="{% url 'website_help_center' %}#1">帮助中心</a></li>
+              <!-- <li class="item_about"><a href="{% url 'website_about_cio' %}#1">CIO在线</a></li> -->
+              <li class="item_about"><a target="_blank" href="http://www.ciopharma.com/Pc">CIO在线</a></li>
+              <li class="item_contact"><a href="{% url 'website_contact_us' %}#1">关于我们</a></li>
+          </ul>
+          {% if not user.is_authenticated %}
+
+            <div class="login">
+                <span class="title"><img src="{{STATIC_URL}}images/new_home/login.png"></span>
+                <span class="txt user"><input id="acc-login" type="text" name="user" placeholder="请输入用户名(邮箱)"></span>
+                <span class="txt password"><input id="pwd-login" type="password" name="password" placeholder="请输入6-12位密码"></span>
+                <span class="register" style="margin-bottom: 10px"><a href="/account/register/index.html" class="orange-font">注册</a> | <a href="/account/password/index.html">忘记密码?</a></span>
+                <span class="login-in-user" style="margin-bottom: 10px"><button id="login-sure">登 录</button></span>
+            </div>
+          {% else %}
+             <div class="login">
+                <span class="title"><img src="{{STATIC_URL}}images/new_home/login.png"></span>
+                <span class="img"><img src="{{STATIC_URL}}images/home/avatar-icon-2.png"></span>
+                <span class="user_txt">{{ user.name }}</span>
+                <div class="login-btn">
+                  <span class="login-in fl"><button id="enterHome">进入首营平台</button></span>
+                  <span class="login-out fl"><a href="/user/api/logout"><button class="back-btn-color" id="dropout">退出</button></a></span>
+                </div>   
+             </div>
+          {% endif %}
+      </div>
+    </div>
+    <div class="banner-login">
+        <div id="slider">
+        </div>
+    </div>
+    {% block content %} {% endblock %}
+      <!-- 底部公共部分 -->
+      <div class="footer">
+        <div class="content-width">
+            <div class="fl">
+                <p>
+                    {% if request.links %}
+                        {% for link in request.links %}
+                            {% if forloop.counter == request.links.count %}
+                            <span class="interval"><a href="{{ link.url }}">{{ link.name }}</a></span>
+                            {% else %}
+                            <span class="interval"><a href="{{ link.url }}">{{ link.name }}</a></span>|
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <span><a href="{% url 'website_index' %}">首页</a></span>
+                        <!-- <span class="interval">|</span>
+                        <span><a href="{% url 'website_help' %}#1">操作指南</a></span>
+                        <span class="interval">|</span>
+                        <span><a target="_blank" href="{% url 'website_faq' %}">常见问题</a></span> -->
+                        <span class="interval">|</span>
+                        <span><a target="_blank" href="{% url 'website_help_center' %}">帮助中心</a></span>
+                        <span class="interval">|</span>
+                        <!-- <span><a target="_blank" href="{% url 'website_us_update' %}">最近更新</a></span> -->
+
+                        <span><a target="_blank" href="{% url 'website_changelog' %}">最近更新</a></span>
+                        <span class="interval">|</span>
+                        <span><a href="{% url 'website_contact_us' %}#1">关于我们</a></span>
+                    {% endif %}
+
+                </p>
+                <p>{{ request.bottom.content2 | default:"©2013-2018&emsp;杭州神中科技有限公司&emsp;客服电话：4006755008"}}</p>
+            </div>
+            <div class="fr">
+                <p>{{ request.bottom.content1|default:'浙ICP备17027164号-1'}}</p>
+                <p><a style="display: inherit" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011002013088"><img src="{{STATIC_URL}}images/new_home/jinghui.png">浙公网安备 33011002013088号</a>&emsp;</p>
+            </div>
+        </div>
+    </div>
+    <!-- QQ 弹窗 -->
+    <div class="service-style" id="service"><img src="{{STATIC_URL}}images/service.png"><br>客服</div> 
+    <div class="service-info" id="service-info">
+      <p>咨询热线：</p>
+      <p class="orange">4006755008</p>
+      <p>在线客服：</p>
+      <p>9:00-18:00</p>
+      <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=169685329&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+      <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=1556124689&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+      <a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=2551451153&site=syzljh.cn&menu=yes"><img src="{{STATIC_URL}}images/qq_link.png"></a>
+    </div> 
+
+    <div class="verify-phone" id="verify-phone">
+        <!-- <img src="{{STATIC_URL}}images/new_home/login.png" alt="" class="title-img"> -->
+        <p class="p-verify"><button class="btn-border-gary btn-ph">手机号验证</button><button class="btn-we" style="margin-left: 5px;">微信验证</button></p>
+        <div class="binding-div binding-phone" >
+            <div class="info-input">
+                <input type="text" class="phone-num" id="phone-num" placeholder="请输入手机号码"></br>
+                <div class="code-info">
+                    <input type="text" class="pic-code" id="pic-code" placeholder="请输入右边的验证码"><img src="" alt="" class="code-img" id="code-img">
+                </div>
+                <div class="code-info">
+                    <input type="text" class="verify-code" id="verify-code" placeholder="请输入手机验证码">
+                    <button class="get-code" id="get-code">获取验证码</button>
+                    <p style="margin-left:45px; margin-top:-10px;">收不到验证码? 试试 <a id="send-voice" class="voiceBtn">语音验证码</a></p>
+                </div>
+            </div>
+            <p class="safe-message" id="safe-message">为了您的账户安全，请绑定手机号码！</p>
+            <button class="commit" id="commit">绑 定</button>
+        </div>
+        <div class="binding-div binding-wechat" style="display: none">
+            <div id="login_container"></div>
+            <p id="login_tips" style="margin:0;padding:0;display:none"></p>
+            <div id="not_login_wecharte">
+                <p style="margin-top: 60px;">当前账号未设置微信验证，请切换到手机验证</p>
+                <a target="_blank" href="/helplist?category=19&id=95#19" style="cursor: pointer;color: #40b2f1">查看绑定操作指南</a>
+            </div>
+        </div>
+    </div>
+    <div class="mceng" id="mceng"></div>
+    <div id="need-data-authorize" style="display: none">{{ user.is_authorize }}</div>
+ </div>
+ </body>
+ <script type="text/javascript" src="{{STATIC_URL}}common/js/slider-1.1.js?v=1.2"></script>
+ <script type="text/javascript" src="{{STATIC_URL}}common/js/placeholder-1.0.js"></script>
+ <script type="text/javascript">
+    var href = window.location.href
+    var nav_tab = $("#nav_tab_ul")
+    if(href.indexOf('about') > -1){
+         nav_tab.find('.item_about').addClass('hover')
+    }else if(href.indexOf('help') > -1){
+         nav_tab.find('.item_help').addClass('hover')
+    }else if(href.indexOf('cio') > -1){
+         nav_tab.find('.item_cio').addClass('hover')
+    }else if(href.indexOf('news') > -1){
+         nav_tab.find('.item_news').addClass('hover')
+    }else if(href.indexOf('contact') > -1){
+         nav_tab.find('.item_contact').addClass('hover')
+    }else{
+    	// 首页
+         nav_tab.find('.item_index').addClass('hover')
+    }
+    // 鼠标经过显示客服 out
+    // $('#service').hover(function(){
+    //   $('#service-info').show('fast')
+    // },function(){
+    //   setTimeout(function(){
+    //     $('#service-info').hide('fast') 
+    //   },3000) 
+    // })
+    // 鼠标经过显示客服 new
+    var timerr = null
+    var changehover = function(ab){
+        $(ab).hover(function(){
+            clearTimeout(timerr)
+            $('#service-info').show('fast')
+        },function(){
+            timerr = setTimeout(function(){
+                $('#service-info').hide('fast') 
+            },300) 
+        })
+    }
+    changehover('#service')
+    changehover('#service-info')
+
+    // 进入首页还是CA认证 
+    var qq = $('#need-data-authorize').text()
+    $("#enterHome").on('click',function(){
+        if(qq == 'False'){
+          location.href = '/enterprise/auth/'
+				}else{
+					location.href = '/account/home/'
+				}
+        // location.href = '/account/home/'
+    })
+    // 轮播js
+    var slier_banner = []
+
+    slier_banner = [
+        {% if request.index_banners %}
+            {% for banner in request.index_banners %}
+                { redirect: '{{ banner.url }}',
+                     url     : '{{MEDIA_URL}}{{ banner.banner }}',
+                     detail  : '{{ banner.name }}',
+                     bgColor : '#ffffff'
+                   },
+            {% endfor %}
+        {% else %}
+       // { redirect: '',
+       //   url     : '{{STATIC_URL}}images/new_home/banner0_0.png',
+       //   detail  : '',
+       //   bgColor : '#1171bb'
+       // },
+       { redirect: '',
+         url     : '{{STATIC_URL}}images/new_home/banner1.jpeg',
+         detail  : '',
+         bgColor : '#268bd9'
+       },
+       { redirect: '',
+         url     : '{{STATIC_URL}}images/new_home/banner2.jpeg',
+         detail  : '',
+         bgColor : '#308dec'
+       },
+       { redirect: '',
+         url     : '{{STATIC_URL}}images/new_home/banner3.jpeg',
+         detail  : '',
+         bgColor : '#308dec'
+       },
+       { redirect: '',
+         url     : '{{STATIC_URL}}images/new_home/banner4.jpeg',
+         detail  : '',
+         bgColor : '#268bd9'
+       },
+       { redirect: 'http://www.ciopharma.com/Pc',
+         url     : '{{STATIC_URL}}images/new_home/banner5.jpg',
+         detail  : '',
+         bgColor : '#F8F8F8'
+       }
+       {% endif %}
+    ]
+    var yslider = new Yslider({  //初始化 yslider
+        target: 'slider',  //slider 容器id
+        interval: 4,  //图片切换间隔时间, 单位s, default 3s
+        imgArray: slier_banner, //图片列表
+        showCircle: true,  //是否显示圆点导航
+        circleColor: '#00C5CD', //圆点导航颜色
+   })
+   $('[placeholder]').placeholder({'left':'40px'})
+
+   $('.com-wall li').hover(function(){
+        $(this).find('div').show()
+   }, function(){
+        $(this).find('div').hide()
+   });
+
+  //  $('.verify-phone').show()
+   $('.p-verify button').on('click',function(){
+        $(".p-verify button").removeClass('btn-border-gary')
+        $(this).addClass('btn-border-gary')
+        var index = $(this).index()
+        $(".verify-phone .binding-div").hide()
+        $(".verify-phone .binding-div").eq(index).show()
+    });
+ </script>
+ <script type="text/javascript" src="{{STATIC_URL}}common/js/fingerprint.js"></script>
+ <script src="https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js">
+  </script>
+  <script type="text/javascript" src="{{STATIC_URL}}common/js/logins.js?v=1.7"></script>
+</html>

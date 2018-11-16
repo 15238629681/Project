@@ -1,0 +1,94 @@
+<!-- ca_ukey.html -->
+<style type="text/css">
+.mt10 {margin-top: 10px;}
+.mt20 {margin-top: 20px;}
+.mb10 {margin-bottom: 10px;}
+.mb20 {margin-bottom: 20px;}
+.ml10 {margin-left: 10px;}
+.mlr33 {margin: 0 33px;}
+.baseColor {color:#40B2F1;}
+.underline {text-decoration: underline;}
+.common_btn_ca {
+	 background-color: #40B2F1;
+	 color: #fff;
+	 padding: 7px 10px;
+	 border-radius: 5px;
+	 -moz-border-radius:5px;
+	 -webkit-border-radius:5px;
+}
+.seal-title{
+    color: #000;
+    padding-left: 10px;
+    border-left: 5px solid #40B2F1;
+}
+.white-bg{
+    background-color: #fff;
+    overflow: hidden;
+    padding: 20px;
+    margin: 10px 33px;
+}
+</style>
+{% if request.original_user.sign_user %}
+    {% if request.original_user.enterprise.need_ukey and request.original_user.is_main %}
+
+        {% if request.original_user.ukey_status == 'notapply' %}
+            <p class="seal-title mlr33 mb20 mt20">签章方式</p>
+            <div class="white-bg">
+                <p>您公司使用Ukey进行签章</p>
+                <p>
+                    您还未申请Ukey,无法使用签章
+                    <a class="ml10 baseColor underline" id="gotoApplyUkey">去申请Ukey</a>
+                </p>
+            </div>
+        {% endif %}
+
+        {% if request.original_user.ukey_status == 'applying' %}
+            <p class="seal-title mlr33 mb20 mt20">签章方式</p>
+            <div class="white-bg">
+                <p>您公司使用Ukey进行签章</p>
+                <p>
+                    Ukey已申请,请耐心等待
+                    <button class="ml10 baseColor underline" id="see-address">查看收货地址</button>
+                </p>
+            </div>
+        {% endif %}
+
+        {% if request.original_user.ukey_status == 'inactive' %}
+            <p class="seal-title mlr33 mb20 mt20">签章方式</p>
+            <div class="white-bg">
+                <p>您公司使用Ukey进行签章</p>
+                <p>
+                    Ukey已发放,请在收到Ukey后激活
+                    <button class="ml10 baseColor underline" id="how-active">如何激活Ukey?</button>
+                    <a class="baseColor ml10 underline" href="{{STATIC_URL}}ukeydrive.exe" target="_blank" id="ukey-drive">下载驱动程序</a>
+                    <button class="ml10 baseColor underline" id="see-express">查看快递单号</button>
+                    <br>
+                    <button class="common_btn_ca mt10" id="activate-ukey">激活Ukey</button>
+                </p>
+            </div>
+        {% endif %}
+
+        {% if request.original_user.ukey_status == 'actived' %}
+            <p class="seal-title mlr33 mb20 mt20">签章方式</p>
+            <div class="white-bg">
+                <p>您公司使用Ukey进行签章</p>
+                <p>
+                    Ukey已激活,可正常使用。
+                </p>
+            </div>
+        {% endif %}
+
+    {% endif %}
+{% endif %}
+
+<script type="text/javascript">
+	// CA认证信息 显示ukey
+	if(sessionStorage.getItem('ca_is_authorize') == 'true') {
+	    $('#ca_ukey').removeClass('none')
+	}else {
+	    $('#ca_ukey').addClass('none')
+	}
+	$(document).on('click', '#gotoApplyUkey', function() {
+       $('#ukey-address').removeClass('none') 
+	})
+</script>

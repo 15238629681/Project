@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico">
+    <title>{% block title%}{% endblock %}</title>
+    <style>
+    body{
+      font-family: "Microsoft Yahei",tahoma,arial,"Hiragino Sans GB","helvetica neue",helvetica,arial,Sans-serif,"Hiragino Sans GB","Hiragino Sans GB W3","SimHei";
+      position: relative;
+      font-size: 14px;
+    }
+    html,body,section,h1,p,input,label,textarea,span,ul,li,dl,dt,dd,button,h2{
+      margin:0;  padding:0;
+    }
+    h2{font-weight: normal;}
+    button,textarea{
+      outline:0px none;
+      border:0 none;
+      background: transparent;
+    }
+    input[type="button"], button {
+      outline: none;
+      cursor: pointer;
+    }
+    input {
+      outline: none;
+    }
+    ul li{
+      list-style: none;
+    }
+    .temp-page-wrap {
+       position: relative;
+       top: 60px;
+    }
+    .temp-page-wrap > .temp-page-content {
+        position: relative;
+        left: 220px;
+        overflow: auto;
+    }
+    </style>
+	{% block header %}{% endblock %}
+  <script type="text/javascript" src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="{{STATIC_URL}}common/js/layer/layer.js"></script>
+  </head>
+  <body>
+  {% include 'common/layout/crm/top-nav.html' %}
+  {% include 'common/layout/crm/left-nav.html' %}
+  <div class="temp-page-wrap">
+    <div id="temp-page-content" class="temp-page-content">
+      <script>
+        (function(win) {
+          //设置 content 高度
+
+          if (document.domain.indexOf('.syzljh.cn') != -1) {
+            document.cookie = "csrftoken=; Path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+          }
+
+          var tid = null
+          var leftNavDom = document.getElementById('temp-left-nav')  //左侧边栏高度
+          var contentDom = document.getElementById('temp-page-content')  // content 高度
+          var changeConHeight = function() {
+            var contentHeight = document.getElementById('temp-page-content').clientHeight
+            var bodyHeight = document.body.clientHeight
+            var contentWidth = document.body.clientWidth - 235
+            contentHeight = (contentHeight > bodyHeight ? contentHeight : bodyHeight) - 60
+            contentHeight = contentHeight > 470 ? contentHeight : 470
+            leftNavDom.style.minHeight = window.innerHeight + 'px'
+            contentDom.style.minHeight = contentHeight + 'px'
+            contentDom.style.width = contentWidth + 'px'
+          }
+          win.addEventListener('resize', function() {
+            clearTimeout(tid)
+            tid = setTimeout(changeConHeight, 300);
+          }, false)
+          win.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+                clearTimeout(tid)
+                tid = setTimeout(changeConHeight, 300)
+            }
+          }, false)
+          changeConHeight()
+        })(window)
+      </script>
+      {% block content %} {% endblock %}
+    </div>
+  </div>
+  </body>
+</html>

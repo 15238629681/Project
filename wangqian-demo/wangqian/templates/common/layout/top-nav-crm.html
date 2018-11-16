@@ -1,0 +1,84 @@
+<style>
+    body{
+        background-color: #ebeff2;
+    }
+    .temp-top-nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fafafa;
+        z-index: 2;
+    }
+    .temp-top-nav > .nav-content {
+        margin: 0 auto;
+        width: 98%;
+        height: 100%;
+    }
+    .temp-top-nav > .nav-content > .nav-logo {
+        float: left;
+        margin-top: 16px;
+        width: 237px;
+        height: 23px;
+        font-size: 14px;
+        color: #363636;
+        background-image: url({{STATIC_URL}}images/header/web_name.png);
+        background-size: 100% 100%;
+    }
+
+    .temp-top-nav > .nav-content > ul {
+        float: left;
+    }
+    .temp-top-nav > .nav-content > ul > li {
+        float: left;
+        min-width: 75px;
+        line-height: 60px;
+        text-align: center;
+    }
+    .temp-top-nav > .nav-content > ul > .active {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-top-nav > .nav-content > ul > li:hover {
+        background-color: #40B2F1;
+        color: #fff;
+    }
+    .temp-top-nav > .nav-content > .logout > a {
+        float: right;
+        margin-right: 15px;
+        line-height: 60px;
+        font-size: 14px;
+        color: #40B2F1;
+        text-decoration: none;
+    }
+    .temp-top-nav > .nav-content > .comp-name {
+        float: right;
+        margin-right: 10px;
+        line-height: 60px;
+    }
+    .temp-top-nav > .nav-content > .logout > a > img{
+        float: right;
+        margin-right: 5px;
+        margin-top: 17px;
+    }
+</style>
+<div class="temp-top-nav">
+    <div class="nav-content">
+        <div class="nav-logo">
+        </div>
+        <span class="logout"><a href="/user/api/logout"><img src="{{STATIC_URL}}images/header/back-home.png"></a></span>
+        <span class="comp-name">{{user.name}}</span>
+    </div>
+</div>
+<script>
+    (function(win) {
+        var navItems = document.getElementsByClassName('temp-nav-item')
+
+        // for(var i=0; i<navItems.length; i++) {
+        //     navItems[i].addEventListener('click', function() {
+        //         console.log('this', this)
+        //         this.className += '\ active'
+        //     })
+        // }
+    })(window)
+</script>

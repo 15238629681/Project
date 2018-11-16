@@ -1,0 +1,98 @@
+body{  
+  	font-family: "Microsoft Yahei",tahoma,arial,"Hiragino Sans GB","helvetica neue",helvetica,arial,Sans-serif,"Hiragino Sans GB","Hiragino Sans GB W3","SimHei";
+  	background-color: #fff;
+  	position: relative;
+  	font-size: 14px;
+}
+html,body,section,h1,p,input,label,textarea,span,ul,li,dl,dt,dd,button,h2{  
+  	margin:0;  padding:0;  
+}
+html,body {
+  	height: 100%;
+}
+ul li{
+  	list-style: none;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.clear{
+	clear: both;
+}
+.pad20{
+	padding: 20px;
+}
+
+/*弹窗*/
+.pop-title{
+	padding: 5px 10px;
+	background-color: #f8f8f8;
+	border-bottom: 1px solid #eaeaea;
+	color: #40b2f1;
+}
+.pop-close{
+	color: #ccc;
+	font-size: 20px;
+}
+
+
+/* 弹窗，样式延续上面的基本样式 可参见/enterprise/business/cliam/detail/index.html 简单弹框html格式*/
+.pop {
+	position: absolute;
+	top: 100%;
+	left: 25%;
+	background-color: #fff;
+	border-radius: 5px;
+	width: 520px;
+	z-index: 10000;
+	display: none;
+}
+.pop-title.title-bar {
+	display: block;
+	border-radius: 5px 5px 0 0;
+}
+.pop-close.close-bar {
+	float: right;
+	cursor: pointer;
+}
+.pop-content {
+	margin: 15px 0;
+	padding: 10px 30px;
+	font-size: 18px;
+	text-align: center;
+}
+.operate-div {
+	padding: 0 30px;
+}
+.operate-button {
+	display: inline-block;
+	width: 90px;
+	background-color: #40b2f1;
+	color: #fff;
+	padding: 10px;
+	border-radius: 3px;
+}
+/* 两个按钮 */
+.operate-button.two {
+	margin: 25px 60px;
+}
+/* 一个按钮 */
+.operate-button.one {
+	display: block;
+	margin: 25px auto;
+}
+
+/* 反正就是那个挡着不让别人操作的那个东西，我也不知道谁写的，拿过来用一下 */
+.mceng {
+	background-color: rgba(127,127,127,0.4);
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: none;
+	z-index: 9999;
+}

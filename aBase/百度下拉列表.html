@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .nowLi{
+            background:red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="t1" @keyup="getList($event)" @keyup.up="upMove()" @keyup.down="downMove()"  >
+        <ul >
+            <li v-for="item in searchData"  :class="{nowLi: $index==now}">
+                {{item}}
+            </li>
+        </ul>
+        <p v-if="searchData.length==0">暂时还没有数据！</p>
+
+
+        <input type="text" v-model="now">
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script src="./vue-resource.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            searchData:[],
+            t1: '',
+            now:-1,
+        },
+        methods:{
+            getList: function(ev){
+                // 上下键 不搜索
+                if(ev.keyCode == 38 || ev.keyCode == 40){
+                    return;
+                }
+                // 回车 跳转到相应 搜索文字的页面
+                if(ev.keyCode == 13){
+                    window.open('https://www.baidu.com/s?wd='+this.t1);
+                    this.t1='';
+                }
+               this.$http.jsonp(
+                                    'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+                                    {
+                                        wd: this.t1
+                                    }
+                                    ,{
+                                        jsonp:'cb'
+                                    }
+                                ).then(function(res){
+                                    this.searchData = res.data.s;
+                                    console.log(this.searchData)
+                                },function(){
+
+                                });
+            },
+
+            upMove: function(){
+                this.now--;
+                if(this.now==-1){
+                    this.now = this.searchData.length;
+                }
+                this.t1 = this.searchData[this.now];
+            },
+            downMove: function(){
+                this.now++;
+                if(this.now==this.searchData.length){
+                    this.now = -1;
+                }
+                this.t1 = this.searchData[this.now];
+            }
+        }
+    })
+</script>
+
+</html>

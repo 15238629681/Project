@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico">
+    <title>{% block title%}{% endblock %}</title>
+    <link rel="stylesheet" href="{{STATIC_URL}}css/base/base-h5-1.0.css">
+    <script src="{{STATIC_URL}}common/jquery/jquery-3.1.1.min.js"></script>
+    <!-- 这个flexible.min.js 一定要放在<meta> 标签后 -->
+    <script type="text/javascript" src="{{STATIC_URL}}common/js/h5/flexible.min.js"></script> 
+  </head>
+  <body>
+    {% block content%}{% endblock %}
+  </body>
+</html>
