@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="../commom/layui-v2.4.5/layui/css/layui.css"> -->
+</head>
+
+<body>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="../commom/jquery.min.js"></script> -->
+    <!-- <script src="../commom/layui-v2.4.5/layui/layui.all.js"></script> -->
+    <script>
+        // promise
+        var funA = function () {
+            return new Promise(function (resolve, reject) {
+                // layer.msg('wewe');
+                setTimeout(function () {
+                    // layer.closeAll();
+                    if (4 <3) {
+                        resolve('成功了')
+                    } else {
+                        reject('失败了');
+                    }
+                }, 2000)
+            })
+        }
+
+        var funB = function(){
+            return new Promise(function(resolve, reject){
+                if(33>4){
+                    resolve('成功了');
+                }else{
+                    reject('失败了');
+                }
+               
+            })
+        }
+
+        funA()
+        .then(function(data){
+            console.log(data);
+            // return funB();
+        })
+        .catch(function(data){
+            // return data;
+            console.log(data);
+        })
+
+
+        funA()
+        .then(funB)
+        .then(function(data){
+            console.log(data)
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+    </script>
+</body>
+
+</html>

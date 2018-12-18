@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div id="App">
+            <input type="text" v-model="itemVal">
+            <button @click="addItem">添加</button>
+            <ul>
+                <li v-for="item in itemList" >{{item}}</li>
+            </ul>
+        </div>
+        <script src="../vue.js"></script>
+        <script>
+            new Vue({
+                ele: '#App',
+                data:{
+                    itemVal:'',
+                    itemList:[]
+                },
+
+                methods: {
+                    addItem: function(){
+                        
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

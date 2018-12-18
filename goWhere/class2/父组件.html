@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+<script src="../vue.js"></script>
+
+<body>
+    <div id="App">
+        <div>
+            <input type="text" id="inputText" v-model="val">
+            <button @click="addItem" v-bind:content="123">添加</button>
+        </div>
+
+        <ul>
+            <todo-item v-for="item in listItem" v-bind:content="item">
+            </todo-item>
+        </ul>
+
+    </div>
+    <script>
+        // 创建全局组建
+        Vue.component("TodoItem",{
+            props:['content'],//接收 父组件传递过来的值
+            template: "<li> {{content}} </li>"
+        })
+        new Vue({
+            el: '#App',
+            data: {
+                val: '23123',
+                listItem: []
+            },
+            mount: {
+
+            },
+            methods: {
+                addItem: function () {
+                    if (!this.val) {
+                        alert('请输入')
+                        return;
+                    }
+                    this.listItem.push(this.val);
+                    this.val = '';
+                    // this.listItem.push()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

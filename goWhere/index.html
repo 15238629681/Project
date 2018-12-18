@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="./jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+    <input type='text' id='input'>
+    <button id='btn'>按钮</button>
+    <ul id='ul'>
+    </ul>
+
+    <button id="test">代理按钮</button>
+    <script>
+        var obj = {
+            name: "John",
+            test: function () {
+                alert(this.name);
+                $("#test").unbind("click", obj.test);
+            }
+        };
+
+        $("#test").click( jQuery.proxy(obj, "test") );
+
+        // 以下代码跟上面那句是等价的:
+        // $("#test").click( jQuery.proxy( obj.test, obj ) );
+
+        // 可以与单独执行下面这句做个比较。
+        // $("#test").click( obj.test );
+
+
+
+        // $.extend( Page.prototype,{
+        //     init: function(){
+        //         this.bindEvents();
+        //     },
+        //     bindEvents: function(){
+        //         var btn = $('#btn');
+        //         btn.on('click', $.proxy(this.handleBtnClick,this))
+        //     },
+        //     handleBtnClick: function(){
+        //         var inputValue = $('#input').val().trim();
+        //         if(!inputValue){
+        //             alert('请输入内容');
+        //         }else{
+        //             $('#ul').append('<li> '+ inputValue +' </li>')
+        //             $('#input').val('');
+        //         }
+        //     }
+        // })
+        // var page = new Page();
+        // page.init();
+    </script>
+</body>
+
+</html>

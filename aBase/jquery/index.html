@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <input type="checkbox" value='1' name="all-checkbox">
+    <label>我要全选</label>
+    <ul>
+        <!-- <li>
+            <label>我是奇葩</label>
+            <input type="checkbox" value='1' name="sub-checkbox">
+        </li>
+
+        <li>
+            <label>我是奇葩</label>
+            <input type="checkbox" value='1' name="sub-checkbox">
+        </li>
+        <li>
+            <label>我是奇葩</label>
+            <input type="checkbox" value='1' name="sub-checkbox">
+        </li> -->
+    </ul>
+
+    <br>
+
+    <!-- 表单 -->
+    <div>
+        <input type="text" placeholder="我是必填项哦">
+        <select data-check-flag="true">
+            <option>请选择</option>
+            <option value="1">12312</option>
+            <option value="2">12312</option>
+            <option value="3">12312</option>
+        </select>
+        <button class="subBtn">提交</button>
+
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        // 全选
+        $.fn.extend({
+            // 全选
+            chooseAll: function () {
+                $(document).on('click', 'input[name=all-checkbox]', function () {
+                    if ($(this).prop('checked')) {
+                        $('input[name=sub-checkbox]').prop('checked', true);
+                    } else {
+                        $('input[name=sub-checkbox]').prop('checked', false);
+                    }
+                })
+            },
+            chooseSub: function () {
+                $(document).on('click', 'input[name=sub-checkbox]', function () {
+                    var len = $('input[name=sub-checkbox]').length;
+                    var chooseLen = $('input[name=sub-checkbox]:checked').length;
+                    if (len == chooseLen) {
+                        $('input[name=all-checkbox]').prop('checked', true);
+                    } else {
+                        $('input[name=all-checkbox]').prop('checked', false);
+                    }
+                })
+            }
+        })
+        $(document).chooseAll();
+        $(document).chooseSub();
+
+        // 检查必填项 是否有值
+        $.fn.checkIsTrue = function () {
+            var _this = $(this);
+
+            _this.find('input[data-check-flag="true"], select[data-check-flag="true"]').each(function () {
+                if (!$(this).val()) {
+                    $(this).css('border', '1px solid red');
+                    return;
+                }
+            })
+
+        }
+
+        // $(document).on('click','.subBtn',function(){
+        //     $(document).checkIsTrue();
+        // })
+
+        var optList = $('select option');
+        $.each(optList, function (i, item) {
+            // debugger
+        })
+
+        //点击事件在1秒内点击  提示操作太频繁
+        var previous, current;
+        $.fn.throttle = function (least, msg) {
+            previous = null, current = null;
+            return function () {
+                current = new Date().getTime();
+                if (!previous) { //事件触发第一次
+                    previous = current;
+                    return;
+                } else {
+                    if (current - previous < least) {
+                        alert(msg);
+                        throw "1232312321"
+                    }
+                    previous = current;
+                }
+            }
+        }
+
+        var a = $(document).throttle(300, '操作太频繁');
+        $('.subBtn').on('click', function () {
+            try {
+                a();
+            } catch (e) {
+                console.log(e);
+                console.log(123)
+            }
+            console.log(' 我还是执行了')
+        })
+
+        // 封装ajax请求
+        var opt = {
+            type: 'GET',
+            url: '',
+            data: ''
+        }
+        $.fn.ajax = function (opt, cb) {
+            if (opt.type != undefined) {
+                a();
+            }
+            if (opt.type == undefined) {
+                throw 'ajax url can not be null'
+            }
+            let tooken;
+            try {
+                tooken = document.cookie.match(/csrftoken=\w+/g)[0].replace(/csrftoken=/, '')
+            } catch (err) {
+                tooken = '';
+            }
+            var result = null;
+            result = $.ajax({
+                type: opt.type || 'GET',
+                url: opt.url,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRFTOKEN', tokken);
+                },
+                contentType: 'application/json',
+                timeout: 5000,//timeout 设置5秒
+                data: opt.data ? JSON.stringify(opt.data) : ''
+            }).done(function (data) {
+                //关闭加载动画
+                cb && cb(null, data);
+            }).fail(function (err) {
+                if (err.status == 403) {
+                    layer.msg('请求权限受限');
+                    return false;
+                }
+                if (err.status == 408) {
+                    layer.msg('请求超时');
+                    return;
+                }
+                if (err.status == 500) {
+                    layer.msg('服务器出错');
+                    return;
+                }
+
+                try {
+                    layer.msg(err.responseJson.detail);
+                } catch (err) {
+                    console.log('err', err)
+                }
+                cb && cb(err, null);
+            })
+        }
+
+        promiseThrottle = $(document).throttle(300, '请求太频繁了')
+        $.fn.extend = {
+            checkedFn: function () {
+
+            },
+            chooseFn: function () {
+
+            }
+        }
+
+        // 存储的函数
+        $.fn.storage = function (opt1) {
+            var opt = {
+                key: opt1.key,
+                value: opt1.value,
+                expdate: opt1.expdate//过期时间  以小时为单位
+            }
+            return {
+                setterFn: function () {
+                    var setTime = new Date().getTime();
+                    localStorage.setItem(opt.key, JSON.stringify({ 'value': opt.value, 'expdate': setTime }))
+                },
+                getterFn: function () {
+                    var getTime = new Date().getTime();
+                    var setTime = JSON.parens(localStorage.getTime(opt.key))['expdate'];
+                    if ((getTime - setTime) / 1000 / 60 / 60 > opt.expdate) {
+                        alert('已经过期');
+                        localStorage.removeItem(opt.key);
+                    } else {
+                        var dataObj = JSON.parse()
+                    }
+                }
+            }
+        }
+
+        var createUser = function () {
+            return new Promise(function (resolve, reject) {
+                if (3 > 1) {
+                    console.log('1确实大于3');
+                    resolve('1确实大于3');
+                } else {
+                    console.log('1不大于3');
+                    reject('1不大于3');
+                }
+            })
+        }
+        createUser()
+            .then(function (data) {
+            }).catch(function (err) {
+                console.log(err)
+            })
+        // console.log(1)
+        function qq(){
+           var abc = 1
+           abc++;
+           console.log(abc)
+        };
+        qq();
+
+        var setName = function () {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    if (4 > 2) {
+                        console.log('2确实大于4');
+                        resolve('2确实大于4');
+                    } else {
+                        console.log('2不大于4');
+                        reject('2不大于4');
+                    }
+                }, 3000)
+            })
+        }
+
+        var setAge = function () {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    if (5 > 3) {
+                        console.log('3确实大于5');
+                        resolve('3确实大于5');
+                    } else {
+                        console.log('3不大于5');
+                        reject('3不大于5');
+                    }
+                }, 3000)
+            })
+        }
+
+        createUser() 
+            .then(setName)
+            .then(setAge)
+            .catch(function (err) {
+                console.log(err)
+            })
+    </script>
+</body>
+
+</html>
