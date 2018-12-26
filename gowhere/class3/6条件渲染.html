@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+            <p v-if="flag=='one' ">我是1</p>
+            <p v-else-if=" flag=='two'">我是2</p>
+            <p v-else>我是3</p>
+            <button @click="changeFn">切换</button>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#App',
+                data:{
+                    flag:'one',
+                },
+                methods: {
+                    changeFn: function(){
+                        if(this.flag=='one'){
+                            this.flag='two';
+                        }else if(this.flag=='two'){
+                            this.flag='three';
+                        }else{
+                            this.flag='one';
+                        }
+                    }
+                },
+                
+            })
+        </script>
+        
+    </body>
+</html>

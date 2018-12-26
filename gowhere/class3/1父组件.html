@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+            <p>{{message}}</p>
+            <item></item>
+        </div>
+        
+        <script>
+
+            // 定义父组件,   其实创建组件的同时,vue的底层也会把组件编译成一个vue的实例(即vue的一个组件其实就是一个实例)
+            Vue.component('item',{
+                template: '<div>hello item</div>'
+            })
+            var app = new Vue({
+                el:'#App',
+                data: {
+                    message: 'hello world'
+                },
+                methods: {
+                    
+                },
+            })
+
+            // app.$data   vue实例的实例属性
+            // app.$el
+            //vue.$destory()  销毁vue实例
+        </script>
+    </body>
+</html>

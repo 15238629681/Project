@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="App">
+        <input type="text" v-model="itemVal">
+        <button @click='addItem'>添加</button>
+        <ul>
+            <!-- <li v-for="item in itemList">{{item}}</li> -->
+            <add-item-component v-for="(item ,index) in itemList" v-bind:content="item" v-bind:index="index" @deletethisitem="deletethisitem"></add-item-component>
+            <!-- 父组件给 子组件传值 -->
+        </ul>
+    </div>
+
+
+    <script>
+        var addItemComponent = {
+            'props':['content','index'],
+            template:'<li @click="deletItem"> {{content}}</li>',
+            methods: {
+                deletItem: function(){
+                    this.$emit('deletethisitem',this.index);
+                }
+            }
+        }
+        var app = new Vue({
+            el:'#App',
+            components: {
+                addItemComponent:addItemComponent
+            },
+            data: {
+                itemVal: '',
+                itemList: []
+            },
+            methods: {
+                addItem: function(){
+                    if(this.itemVal){
+                        this.itemList.push(this.itemVal);
+                        this.itemVal = '';
+                    }else{
+                        alert('请输入')
+                    }
+                },
+                deletethisitem: function(index){
+                    this.itemList.splice(index, 1);
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>

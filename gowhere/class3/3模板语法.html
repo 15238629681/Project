@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+          <p v-text='message' v-bind:title="message"></p>
+          <br>
+          
+          <p>{{message + '--------------你呢'}}</p>
+          <br>
+          <br>
+          <p v-html="tag + 'hehehe,那又怎样,我也是一个消息'"></p>
+
+
+          <!-- v-text p标签的html内容 v-html p标签内部的html-->
+          <!-- v-***的指令, 等号后边都是一个js的表达式 ,可以对数据进行操作-->
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el:'#App',
+                data:{
+                    message:'我是个 消息',
+                    tag:'<h1>我真的是一个消息啊</h1>'
+                },
+
+            })
+        </script>
+        
+    </body>
+</html>

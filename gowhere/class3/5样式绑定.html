@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="../vue.js"></script>
+
+</head>
+<style>
+    .className {
+        color: red;
+        cursor: pointer;
+    }
+
+    .divClassName {
+        width: 200px;
+        height: 200px;
+        background:rgb(208, 211, 178);
+    }
+
+    .classOne{
+        font-size:16px;
+    }
+    .classTwo{
+        border: 5px solid red;
+    }
+</style>
+
+<body>
+    <div id="App">
+         <h1>类名控制样式</h1>
+        <p @click="changeColor" :class="{className: colorFlag }">点我一下 就变色</p>
+        <hr>
+        <div :class="divClassName">我通过类名来改变自己的颜色</div>
+        <hr>
+        <span :class='[classOne,classTwo]'>我现在是一个类数组</span>
+        <hr>
+        <h1>style控制样式</h1>
+        <div :style="[ divStyleArrayObj, {fontSize:'20px'} ]">我直接是用对象来控制的</div>
+        <hr>
+        <div :style="divStyleObj"></div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#App',
+            data: {
+                colorFlag: false,
+                divClassName:'divClassName',//类名
+                classOne:'classOne',
+                classTwo:'classTwo',
+
+                divStyleArrayObj: {
+                        width: '200px',
+                        height: '200px',
+                        background: 'red',
+                        lineHeight:'50px'
+                },
+                divStyleObj: {
+                    width:'150px',
+                    height:'150px',
+                    border:'2px solid pink',
+                }
+            },
+            methods: {
+                changeColor: function () {
+                    this.colorFlag = !this.colorFlag;
+                },
+
+
+            },
+        })
+    </script>
+</body>
+
+</html>

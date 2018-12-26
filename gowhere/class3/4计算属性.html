@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+            <h1>{{thirdName()}}</h1>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el:'#App',
+                data:{
+                    firstName: 'yao     ',
+                    secondName: '       miJia',
+                    // thirdName: '123'
+                },
+                computed: {
+                    // thirdName: function(){
+                    //     console.log('计算了一次');
+                    //     return this.firstName + '       ' + this.secondName;
+                    // }
+                },
+                watch: {
+                    // firstName: function(){
+                    //     console.log('我被执行了一次')
+                    // }
+                },
+                methods: {
+                    thirdName: function(){
+                        console.log('计算了一次')
+                        return this.firstName + this.secondName;
+                    }
+                },
+            })
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="App">
+        <input type="text" v-model="itemVal">
+        <button @click='addItem'>添加</button>
+        <ul>
+            <!-- 父组件给 子组件传值 -->
+            <todoitem v-for="item in itemList" v-bind:val="item" @wantdelete='okIgoDelete'></todoitem> 
+        </ul>
+    </div>
+
+
+    <script>
+        // 创建一个子组件
+        var toDoitem = {
+            props: ['val'], //接收父组件v-bind传递过来的值
+            template: '<li @click="deleteLi">{{val}}</li>',//点击当前li,删除当前li
+            methods: {
+                deleteLi: function(){
+                    //去父组件删除数组中的数据
+                    //子组件向父组件传递事件,然后在父组件的相应事件中删除
+                    this.$emit('wantdelete')
+                }
+            }
+        }
+
+        new Vue({
+            el: '#App',
+            components: {
+                todoitem: toDoitem
+            },
+            data: {
+                itemVal: '',
+                itemList: []
+            },
+            methods: {
+                addItem: function () {
+                    if (this.itemVal == '') {
+                        alert('请输入');
+                        return;
+                    } else {
+                        this.itemList.push(this.itemVal);
+                        this.itemVal = '';
+                    }
+                },
+                okIgoDelete: function(){
+                    this.itemList=[];
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
