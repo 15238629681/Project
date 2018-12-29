@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+            <!-- 绑定自定义属性, 传递给全局组件 -->
+            <item-component v-for="(item, index) in itemArray" v-bind:text1="item" v-bind:itemval="href"  @click='addItem(index)' ></item-component>
+        </div>
+        <script>
+            //  定义全局组件
+            Vue.component('itemComponent',{
+                template:'<li >{{text}},,,,,{{itemval}}</li>',
+                // 接收有父组件传递过来的数据
+                props: ['text1','itemval'],
+                // 全局组件定义的点击事件
+                methods: {
+                    addItem: function(index){
+                        //现在知道点击的是第几个,在其后边添加item,需要去父组件里添加数据
+                        this.$emit('wantadditem',index);
+                    }
+                }
+            })
+
+            var vm = new Vue({
+                el: '#App',
+                data: {
+                    href: '123',
+                    itemArray:['111','222','333']
+                },
+                methods: {
+                    okgowant: function(index){
+                        // this.itemArray.split(index+1, 0 ,'item');
+                        this.itemArray.split(index,1);
+                    }
+                },
+                
+            })
+        </script>
+        
+    </body>
+</html>
