@@ -17,7 +17,7 @@
             <li-component></li-component>
         </div>
 
-        <h1>此布局存在问题</h1>
+        <h5>此布局存在问题</h5>
         <table>
             <tbody>
                 <row></row>
@@ -27,7 +27,7 @@
         </table>
 
 
-        <h1>此布局ok</h1>
+        <h5>此布局ok</h5>
         <table>
             <tbody>
                 <!-- <li is='row'></li> -->
@@ -36,10 +36,17 @@
             </tbody>
         </table>
 
+        <select>
+            <option is="row"></option>
+            <option is="row"></option>
+            <option is="row"></option>
+        </select>
+
     </div>
     <script>
         // 子组件里定义一个data,要是一个function
         Vue.component('liComponent', {
+            // 每个子组件存在自己的独立存储
             data:function(){
                 return {
                     content: 'this is content',

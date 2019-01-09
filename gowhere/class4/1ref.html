@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>ref获取dom</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -10,11 +10,49 @@
     </head>
     <body>
         <div id="App">
-            <div ref="hello" style=""> hello word</div>
+            <!-- 引用的名字: hello -->
+            <div ref="hello" @click="getDom"  style="display: inline-block;width:50px;height: 50px;line-height:50px;text-align: center;border: 1px solid #000;"> 按钮</div>
+
+            <!--  公共子组件 -->
+            <h5>点一下小黄鸭就变成小黑鸭</h5>
+            <ul>
+                <li is="itemComponent"  v-for="(item,index) in dackList" v-bind:name='item' v-bind:index="index"  @changefunction = "changeOk"></li>
+            </ul>
         </div>
         <script>
+
+            Vue.component('itemComponent',{
+                props:['name','index'],//接收父组件绑定的变量
+                data: function(){
+                    return {
+                        content: '我是一只小黄鸭1',
+                    }
+                },
+                template: '<li @click="changeFn">{{name}}</li>',
+                 methods: {
+                     'changeFn': function(){
+                         //给父组件传递事件
+                          this.$emit('changefunction', this.index);
+                     }
+                 }
+            })
+
             var vm = new Vue({
                 el: '#App',
+                 data:{
+                     dackList:['小黄鸭1','小黄鸭2','小黄鸭3','小黄鸭4','小黄鸭5'],
+                 },
+                methods: {
+                    getDom: function(){
+                        // 获取所有的引用,然后找到名字为hello的引用
+                        // this.$refs.hello    获取dom元素
+                        console.log(this.$refs.hello.innerHTML)
+                    },
+                    changeOk: function(index){
+                        this.dackList.splice(index,1,'小黑鸭')
+                        
+                    }
+                },
                 
             })
         </script>
