@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>过滤器</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <body>
+        <div id="App">
+           <a :href=' url | addProtocol '>我不管,反正我是要跳走的</a>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#App',
+                data:{
+                    url: 'jianshu.com/p/019b868c0279',
+                },
+                filters: {
+                    addProtocol: function(val){
+                        if(!val){
+                            return '';
+                        }else{
+                            return 'https://www.' + val;
+                        }
+                    }
+                }
+            })
+        </script>
+        
+    </body>
+</html>

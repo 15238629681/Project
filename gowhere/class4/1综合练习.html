@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+    </head>
+    <style>
+        .blockStyle{
+            width:20px;height:20px;
+            line-height: 20px;
+            text-align: center;
+            display: inline-block;
+            background:gray;
+        }
+
+        .classone{
+            width:40px;
+            height:20px;
+            line-height:20px;
+            text-align: center;
+        }
+        .classtwo{
+            background: red;
+        }
+    </style>
+    <body>
+        <!-- is解决   h5标签上的小bug -->
+        <!-- 子组件里边  定义data必须是一个函数 -->
+        <!-- :class="{classname: falg}"  classname 直接就是类名,不用加引号,flag代表类为true还是false, 注意等号后边,大括号前面一定要加引号   -->
+         <!-- :style="{cursor: pointerVal,}"    注意pointerVal是data里的变量,值为"pointer" -->
+        
+
+        <div id="App">
+            <counter @alladd="getall" ref="one"></counter>
+            <counter @alladd="getall" ref="two"></counter>
+            <h5>父组件中计算  上面两个子组件的和</h5>
+            <div  :class=[classOne,classTwo]>{{num}}</div>
+        </div>
+        <script>
+            Vue.component('counter',{
+                template: '<span @click="change" :class="{ blockStyle: classFlag }" :style="{cursor:pointer,}">{{num}}</span>',
+                data: function(){
+                    return {
+                        num:0,
+                        classFlag: true,
+                        pointer: 'pointer'
+                    }
+                },
+                methods: {
+                    change: function(){
+                        this.num ++;
+                        this.$emit('alladd');
+                    }
+                },
+            })
+            var vm = new Vue({
+                el: '#App',
+                data: {
+                    num : 0,
+                    classOne: 'classone',
+                    classTwo: 'classtwo'
+                },
+                methods: {
+                    // this.$refs.one   one在子组件上,获取到的是子组件;
+                    //当在一个dom元素时,获取到的是dom元素
+                    getall: function(){
+                        this.num = parseInt(this.$refs.one.num) + parseInt(this.$refs.two.num);
+                    }
+                }
+            })
+        </script>
+        
+    </body>
+</html>

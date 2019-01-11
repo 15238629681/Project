@@ -8,10 +8,21 @@
         <link rel="stylesheet" href="">
         <script src="../vue.js"></script>
     </head>
+    <style>
+        li{
+            /* display: inline-block; */
+            background:cadetblue;
+            margin-bottom:5px;
+        }
+        #item-1{
+            color: red;
+        }
+    </style>
     <body>
         <div id="App">
+            <span :id="'item-'+ num " >姚宓伽</span>
             <!-- 引用的名字: hello -->
-            <div ref="hello" @click="getDom"  style="display: inline-block;width:50px;height: 50px;line-height:50px;text-align: center;border: 1px solid #000;"> 按钮</div>
+            <div ref="hello" @click="getDom"  style="display: inline-block;width:100px;height: 20px;line-height:20px;text-align: center;border: 1px solid #000;cursor: pointer;">按钮</div>
 
             <!--  公共子组件 -->
             <h5>点一下小黄鸭就变成小黑鸭</h5>
@@ -20,7 +31,6 @@
             </ul>
         </div>
         <script>
-
             Vue.component('itemComponent',{
                 props:['name','index'],//接收父组件绑定的变量
                 data: function(){
@@ -36,24 +46,23 @@
                      }
                  }
             })
-
             var vm = new Vue({
                 el: '#App',
-                 data:{
+                data:{
                      dackList:['小黄鸭1','小黄鸭2','小黄鸭3','小黄鸭4','小黄鸭5'],
+                     num: 0
                  },
                 methods: {
                     getDom: function(){
+                        this.num++;
                         // 获取所有的引用,然后找到名字为hello的引用
                         // this.$refs.hello    获取dom元素
                         console.log(this.$refs.hello.innerHTML)
                     },
                     changeOk: function(index){
-                        this.dackList.splice(index,1,'小黑鸭')
-                        
+                        this.dackList.splice(index,1,('小黑鸭'+(index+1)))
                     }
                 },
-                
             })
         </script>
         
