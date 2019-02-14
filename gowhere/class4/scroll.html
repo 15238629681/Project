@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div style="height: 2000px;border:1px solid red;"></div>
+        <script src="../jquery-3.1.1.min.js"></script>
+        <script>
+        
+            function setCookie( sName, sValue){
+                date = new Date();
+                s = data.getDate();
+                data.setDate(s+1);
+                document.cookie = sName + "=" + sValue + '; expires=' + date.toGMTString();
+            }
+
+            function getCookie( sName ){
+                var aCookie = document.cookie.split("; ");
+                for(var i=0;i < aCookie.length;i++){
+                    var aCrumb = aCookie[i].split("=");
+                    if(sName == aCrumb[0]){
+                        return aCrumb[1];
+                    }
+                    return null
+                }
+            }
+
+            function fnload(){
+                document.body.scrollTop = getCookie("scrollTop");
+                console.log((document.body.scrollTop)+'获取cookie!');
+            }
+
+            function fnunload(){
+                setCookie('scrollTop', document.body.scrollTop);
+                console.log(document.body.scrollTop + '设置cookie');
+            }
+
+            window.onunload = fnunload;
+            window.onload = fnload;
+        </script>
+    </body>
+</html>
