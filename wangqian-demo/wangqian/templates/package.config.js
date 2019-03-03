@@ -4,8 +4,7 @@
 let dirs = {
     entries: [
         './page/index.js',
-        './page/main/index.js'
-        // './enterprise/business/enterprise_ask_buness_list/index.js'
+        // './page/main/index.js'
     ],
     //将打包结果输出到目标路径, 为空时，打包后文件输出到 assets 目录
     outputDir: '../static/bundles' //支持一个输出路径

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+        <style>
+            h2{
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+       <div id="app">
+            <!-- 父组件通常都是通过属性向子组件传递数据的 -->
+            <!-- 父组件过来监听   子组件传递过来的yetAdd事件 -->
+            <onecomponent :count=num1 @yetadd="goAdd"></onecomponent>
+            <onecomponent :count=num2 @yetadd="goAdd"></onecomponent>
+
+            <!-- count前面加冒号,等号后边就是一个js表达式,0就是一个数字 -->
+            <onecomponent :count=0></onecomponent>
+            <!-- count前面不加冒号,等号后边是字符串,1的数据类型就是一个字符串 -->
+            <onecomponent count=1></onecomponent>
+
+            <h1>我是所有的和{{sum}}</h1>
+       </div>
+        <script>
+            var onecomponent = {
+                // 接收父组件传递过来的数据
+                props:['count'],
+                template:"<h2 @click='addClick'>{{num}}</h2>",
+                data: function(){ //子组件的data,必须是一个函数
+                    //此处相当于,从父组件赋值了一份数据,放在子组件的data里
+                    return {
+                        num: this.count
+                    }
+                },
+                methods: {
+                    addClick: function(){
+                        this.num += 2;
+                        // 子组件向父组件  触发yetAdd的事件
+                        this.$emit('yetadd',2);
+                    }
+                }
+            }
+
+
+
+            // 父组件是vue的根实例
+            var app = new Vue({
+                el:'#app',
+                data:{
+                    num1: 22,
+                    num2: 33,
+                    sum: 55//通过计算属性避免数据的冗余
+                },
+                components:{//注册子组件
+                    onecomponent:onecomponent
+                },
+                methods: {
+                    goAdd: function( addnum ){
+                        this.sum  += addnum;
+                    }
+                },
+            })
+
+
+            // 父组件通过属性的方式给子组件传递数据
+            // 子组件通过事件的方式向父组件传递数据,而且子组件不可直接更改父组件传递过来的数据,需要重新赋值一份
+            // vue 数据的传递是单项数据流的方式进行
+        </script>
+    </body>
+</html>

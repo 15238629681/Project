@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="../vue.js"></script>
+        <style>
+            h2{
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+       <div id="app">
+            <!-- 父组件通常都是通过属性向子组件传递数据的 -->
+            <onecomponent :count=num1 @yetAdd="goAdd"></onecomponent>
+            <onecomponent :count=num2 @yetAdd="goAdd"></onecomponent>
+
+            <!-- count前面加冒号,等号后边就是一个js表达式,0就是一个数字 -->
+            <onecomponent :count=0></onecomponent>
+            <!-- count前面不加冒号,等号后边是字符串,1的数据类型就是一个字符串 -->
+            <onecomponent count=1></onecomponent>
+
+            <h1>我是所有的和{{sum}}</h1>
+       </div>
+        <script>
+            var onecomponent = {
+                // 接收父组件传递过来的数据
+                props:['count'],
+                template:"<h2 @click='addClick'>{{count}}</h2>",
+                methods: {
+                    addClick: function(){
+                        this.count += 2;
+                        // 子组件相加的时候,我们要去告诉父组件
+                        // (注意此处是会报错的,我们在子组件中获取了,从父组件传递过来的数据,然后直接将该数据加2.   如果父组件传递过来的数据是一个引用类型的数据,如果你在其中一个组件中修改了另一个组件中使用的该引用类型的数据,就会出错,   所以子组件是不能直接去修改父组件的数据的    那么子组件应该怎样修改父组件的数据呢,看下一个实例)
+                        $.emit('yetAdd',2);
+                    }
+                }
+            }
+            var app = new Vue({
+                el:'#app',
+                data:{
+                    num1: 22,
+                    num2: 33,
+                    sum: 100
+                },
+                components:{//注册子组件
+                    onecomponent:onecomponent
+                },
+                methods: {
+                    goAdd: function( addnum ){
+                        this.sum = this.num1 + this.num2 + addnum;
+                    }
+                },
+            })
+        </script>
+    </body>
+</html>
