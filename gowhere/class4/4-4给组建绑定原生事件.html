@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div id="App" >
+
+            <!-- 绑定在子组建上的click事件是自定义事件,而不是原生的click事件 -->
+            <!-- <child @clickone="handerClickParent"></child> -->
+
+            <!-- 现在我们想在父组件上直接绑定点击事件 (可以在父组件中直接定义事件)-->
+            <child @click.native = 'nativateClick'></child>
+        </div>
+        
+        <script src="../vue.js"></script>
+        <script>
+            Vue.component('child',{
+                template: '<h1 @click="handerClick">abc</h1>',
+                methods: {
+                    handerClick: function(){
+                        // alert(' child click');
+
+                        // this.$emit('clickone','I do a test');  //通过子组建向父组件传递clickone事件,然后父组件监听到clickone事件就会去执行handerClickParent事件
+                    }
+                }
+            })
+            var app = new Vue({
+                el: '#App',
+                data: {
+
+                },
+                methods: {
+                    handerClickParent: function(val){
+                        alert('parent  click---->'+ val);
+                    },
+                    nativateClick: function(){
+                        alert('  nativateClick--->我是原生的点击事件   ')
+                    }
+                },
+            })
+        </script>
+    </body>
+</html>

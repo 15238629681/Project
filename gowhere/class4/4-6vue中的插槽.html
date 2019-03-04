@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!-- 父组件如何向子组件传递dom -->
+
+        <div id="App" >
+            <!-- 我们现在的需求是:根据父组件传递过来的数据,然后显示到子组件中去 (子组件的一些内容需要父组件传递过来的一些dom来显示))-->
+            <child content="<p>我是父组件传递给子组件的数据</p>"></child>
+
+            <!-- 这样虽然确实实现了,但是弊端是 p标签外面被套上了div标签 -->
+        </div>
+        <script src="../vue.js"></script>
+        <script>
+            Vue.component('child',{
+                props:{
+                    content:String,
+                },
+                template:`<div>
+                    <h1>child</h1>
+                    <div v-html="this.content" ></div>
+                    </div>`,
+            })
+            var app = new Vue({
+                'el':'#App',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

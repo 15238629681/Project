@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!-- bus/总线/发布订阅模式/观察者模式 -->
+        <div id="App" >
+
+            <!-- 我们现在想  点击lee的时候,第二个也变成lee;  点击woo的时候,第一个lee也变成woo,现在需要两个子组件传值 -->
+           <child content="lee"></child>
+           <child content="woo"></child>
+        </div>
+        <script src="../vue.js"></script>
+        <script>
+            // 给vue绑定上了bus属性
+            Vue.prototype.bus = new Vue();
+
+            Vue.component('child',{
+                // 接收来自 父组件绑定的数据
+                props:{
+                    content: {
+                        type:String,
+                        required: true,
+                    }
+                },
+                data: function(){
+                    return {
+                            selfContent: this.content//复制一份
+                    }
+                },
+                template: '<h1 @click="change">{{selfContent}}</h1>',
+                methods: {
+                    change: function(){
+                        this.bus.$emit('change', this.selfContent);
+                    }
+                },
+
+                mounted: function(){
+                    // 我们在一个子组建上点击,两个组件都会触发到该函数,因为每个组件都存在bus这个属性
+                    var _that = this;
+                    this.bus.$on('change', function(msg){
+                        // 那我们现在已经接收到  传递过来的数据,现在开始改变数据
+
+                        // 正确的写法
+                        _that.selfContent = msg;
+                        
+                        // 错误的写法
+                        // _that.content = msg;//现在出现了一个问题,vue的数据流是单项的,父组件向子组件传递的数据,我们在子组件中对父组件的数据进行了改变,这样是不合理的,所以我们需要将父组件传递过来的数据复制一份,放在子组件,然后再去复制之后的数据
+
+
+
+                    })
+                }
+            })
+            var vm = new Vue({
+                el: '#App',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

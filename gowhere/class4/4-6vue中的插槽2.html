@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!-- 父组件如何向子组件传递dom -->
+
+        <!-- 页面分为三个部分,header content footer,其中header和footer需要父组件传值过去,content属于子组件template的一部分 -->
+        <div id="App" >
+
+            <!-- template1 -->
+            <body-content >
+                <div slot="header"><h1>header</h1></div>
+                <div slot="footer"><h1>footer</h1></div>
+            </body-content>
+
+
+            <hr>
+            <!-- 另一种实现方式  template2-->
+            <body-content>
+                <div slot="footer"><h1>footer</h1></div>
+            </body-content>
+        </div>
+        <script src="../vue.js"></script>
+        <script>
+            Vue.component('body-content',{
+                // template: `<div>
+                //         <slot name="header"></slot>
+                //         <div class="content">content</div>
+                //         <slot name="footer"></slot>
+                //     </div>`
+
+
+                // 未定义的header,可以使用默认值
+                 template: `<div>
+                        <slot name="header">default  solt</slot>
+                        <div class="content">content</div>
+                        <slot name="footer"></slot>
+                    </div>`
+            })
+            var app = new Vue({
+                'el':'#App',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>
