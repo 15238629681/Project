@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+
+<!-- 点击label,光标定位到输入框里；鼠标双击触发该输入框的click或者blur事件 -->
+    <label for="name">name</label>
+    <input type="text" id="name">
+    <hr>
+<!-- 点击label可以选中,也可以取消选中 -->
+    <label for="sex">sex</label>
+    <input type="checkbox" id="sex">
+    <hr>
+
+<!-- 点击label直接选中.不可取消 -->
+    <label for="intest">intest</label>
+    <input type="radio" id="intest">
+    <hr>
+
+    <button class="subData">提交</button>
+
+    <div class="testDiv" style="width:200px;height:200px;border:1px solid #ccc;">
+      
+    </div>
+    <script src="./jquery-3.1.1.min.js" ></script>
+    <script>
+      $('.subData').click(function(e){
+        console.log("我自身上绑定的事件")
+        
+      })
+      $(document).on('click','button',function(e){
+        console.log('我是委托触发的事件');
+        e.stopPropagation();
+      })
+      
+      // for (let i = 0; i < 10; i++) { 
+      //   setTimeout(function() {
+      //     console.log(i);    //  i 是循环体内局部作用域，不受外界影响。
+      //   }, 0);
+      // }
+
+
+    // 双击label会触发该事件123123
+      $('#name').on('keydown',function(e){
+        // e.returnValue = ''
+        return false;
+      })
+
+      function getData(){
+        var name = $('#name').val();
+        if(!name){
+          return false;
+          // return true;
+          // return;  
+        }else{
+          return name;
+        }
+      }
+      // $('.subData').on('click', function(){
+      //   var name = getData();  //getData不论return什么,均会继续执行,作为一个返回值赋值给name
+      //   alert(name)
+      //   return true;//但是此处return之后的代码均不会执行
+      //   console.log(name)
+      // })
+
+      //  $('#name').on('click',function() {
+      //   debugger
+      // })
+
+
+      // $('ul').on('click','.item',function(){
+      //   alert($(this).html())
+      // })
+
+      // $('.item').click(function(){
+      //   $(this).html('132')
+      // })
+
+      // $('.item').html('123')
+
+      // console.log($('.item').html())
+
+
+      // 阻止鼠标输入事件   动态判断是否添加check属性
+      var add = false;
+      //根据add真假来添加checed属性
+      $('.testDiv').append('<input type="checkbox"  '+ (add ? 'checked':'') +'>')
+      // 一下三种均:选中
+      $('.testDiv').append('<hr><input type="checkbox"  checked >')
+      $('.testDiv').append('<hr><input type="checkbox"  checked=true >')
+      $('.testDiv').append('<hr><input type="checkbox"  checked=false >')
+        
+
+
+      function showNum(i) {
+        // return function () {
+          return i;
+        // }
+      }
+      var arr = []
+      for (var i = 0; i < 5; i++) {
+         arr[i]=showNum(i); //循环输出1,2,3,4
+         console.log(arr[i],'1312');
+      }
+      console.log(arr[0]);
+
+
+
+      class People{
+        constructor(name){
+            this.name = name;
+        }
+        say(thing){
+            console.log(this.name + '---say---' + thing);
+        }
+      }
+
+      class Student extends People{
+        constructor(){
+          super()
+          this.name = 'piKaQu'
+        }
+      }
+
+      var ming = new People('ming');
+      ming.say('hello')//ming---say---hello
+
+      var hong = new Student();
+      hong.say('hello'); //piKaQu---say---hello
+
+
+
+      var aaa = `hellow
+      world`
+      console.log(aaa)
+
+      var a = 123;
+      console.log(`我是一串数字${a}`)
+
+
+      var promise = new Promise((resolve, reject) =>{
+        var a = true
+        if(a){
+          resolve(a);
+        }else{
+          reject(a)
+        }
+      })
+
+      promise.then(function(val){
+        console.log('我大概是成功的回调函数')
+      },function(val){
+        console.log('我大概是失败的回调函数');
+      })
+
+
+      var name = 'jin'
+      var aa = {
+        name: 'tom',
+        info: this.name + '123',
+        getname: function(){
+          return this.name  + '111';
+        }
+      }
+      console.log(window.name)
+      console.log(aa.info);
+      console.log(aa.getname())
+
+      var dog = new Object();
+      dog.name='123111';
+      dog.getname = function(){
+        return this.name;
+      }
+      console.log(dog.getname())
+
+      console.log('---------------------');
+      class Prople{
+        constructor(name){
+          this.name = name;
+        }
+        say(thing){
+          console.log(this.name + '----has say---' + thing);
+        }
+      }
+      var abc = new Prople('abc');
+      abc.say('worry');
+      console.log('------------------------------------------');
+      console.log('------------------------------------------');
+      function fruit(){
+        this.name = 'orange';
+      }
+      fruit.prototype.getInfo = function(info){
+        return this.name + '----' + info;
+      }
+      var apple = new fruit();
+      function people(){
+        this.name = 'tom';
+      }
+      console.log( apple.getInfo.apply(people,['this is people'] ))
+
+      console.log('------------------------------------------');
+      console.log('------------------------------------------');
+
+      var a1 = 'me is a1';
+      var a2 = {
+        a1 : 'me is 123',
+        geta1: function(age){
+          console.log(this.a1,age);
+        }
+      }
+      a2.geta1('888');//me is 123
+      
+      var a11 = a2.geta1;  //this 变成 windows
+      a11(888);//me is a1
+
+      var a22 = a11.bind(a2,888);
+      a22()  //me is 123
+    </script>
+  </body>
+</html>

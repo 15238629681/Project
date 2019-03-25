@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div id="App" >
+            <component :is="type"></component>
+
+            <button @click="change">改变</button>
+        </div>
+        <script src="../vue.js"></script>
+        <script>
+
+            Vue.component('child-one',{
+                template: `<div>
+                   <h1>组件1</h1>
+                </div>`,
+            })
+            Vue.component('child-two',{
+                template: `<div>
+                   <h1>组件2</h1>
+                </div>`,
+            })
+
+           var app = new Vue({
+                'el':'#App',
+                data: {
+                    type: 'child-one',
+                },
+                methods: {
+                    change: function(){
+                        if(this.type=='child-one'){
+                            this.type='child-two';
+                        }else{
+                            this.type='child-one';
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
+
+<!-- solt是对组建的扩展,通过solt插槽向组件内部指定位置传递内容,通过solt可以父子传递 -->
+
+<!-- solt是占坑,在组件模板中占好位置,当使用该组件标签时候,组件标签里面的内容就会自动填坑,替换组件模板中<slot>位置,当插槽也就是坑<solt name="mySolt">有命名时,组件标签中使用属性solt="mySolt"的元素就会替换该对应位置的内容 -->

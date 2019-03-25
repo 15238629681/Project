@@ -9,13 +9,40 @@
     </head>
     <body>
         <div id="App" >
+                    <child :content="content">
+                         <!-- 父组件调用子组件的时候,给子组件传递了一个插槽,这个插槽是作用域插槽,作用域插槽必须是一个以template开头和结尾的内容,插槽的数据放在props中 -->
+
+                         <!-- 作用域插槽使用场景:当子组件需要做循环,且内部的一部分需要从外部传递过来的时候 -->
+                        <template slot-scope="props">
+                            <h1>{{props.item}}</h1>
+                        </template>
+                    </child>
+            
         </div>
         <script src="../vue.js"></script>
         <script>
+
+            Vue.component('child',{
+                data: function(){
+                    return {
+                        contentArr: ['123','abc','bcd'],
+                    }
+                },
+
+                // 子组件可以向父组件的插槽中传递数据  item,父组件的插槽想要接收该数据就必须使用template,并且定义slot-scope属性,使用该属性来访问传递过来的数据
+                template: `<div>
+                    <ul>
+                        <slot v-for="item of contentArr" :item=item></slot>   
+                    </ul>
+                </div>`,
+
+
+            })
+
            var app = new Vue({
                 'el':'#App',
                 data: {
-
+                    content:['a','bb','ccc','dddd']
                 },
                 methods: {
 
@@ -24,3 +51,7 @@
         </script>
     </body>
 </html>
+
+<!-- solt是对组建的扩展,通过solt插槽向组件内部指定位置传递内容,通过solt可以父子传递 -->
+
+<!-- solt是占坑,在组件模板中占好位置,当使用该组件标签时候,组件标签里面的内容就会自动填坑,替换组件模板中<slot>位置,当插槽也就是坑<solt name="mySolt">有命名时,组件标签中使用属性solt="mySolt"的元素就会替换该对应位置的内容 -->
